@@ -1,0 +1,1717 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/20/2022 12:06:23 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AYOTUNDE"
+  DTS:CreatorName="AYOTUNDE\ogunb"
+  DTS:DTSID="{CFF18D7B-2C34-4A17-A210-35B4CAC2BEDB}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.123"
+  DTS:LocaleID="4105"
+  DTS:ObjectName="stgFactPurchaseAnalysis"
+  DTS:PackageType="5"
+  DTS:VersionBuild="5"
+  DTS:VersionGUID="{CF31025D-EBCD-49CB-9DAC-CED3F107CB7B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{65741A40-D80D-45A7-A381-9DE0E1F9EBEE}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="PackageID">
+      <DTS:VariableValue
+        DTS:DataType="3">12</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{54F36163-206B-4BF9-B787-E8B66DA94E65}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StgDescCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E1F1C73C-FCF3-4909-93B5-76BEACCE9FBC}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StgSourceCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Desc Count"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9EE2461F-C47F-4292-9894-FFA60BC9295D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Desc Count"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}"
+          SQLTask:SqlStatementSource=" select count(*) as StgDescCount from tescaDB.Purchase_Analysis"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="StgDescCount"
+            SQLTask:DtsVariableName="User::StgDescCount" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Metrics"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3D88F5D3-2489-443C-B72E-39E694183C25}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Metrics"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F33CED1F-4B97-43E4-863E-A1758E9AED50}"
+          SQLTask:SqlStatementSource=" Declare @StgSourceCount bigint=?&#xA;  Declare @StgDescCount bigint=?&#xA;  Declare @PackageID int=?&#xA;&#xA;  Insert into control.metrics&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;PackageID,stgSourceCount,stgDescCount,Rundate&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;  &#xA;  Select @PackageID, @StgSourceCount, @StgDescCount,   Getdate()&#xA;  Update Control.Package   set LastRundate=Getdate() &#xA;  Where   PackageId=@PackageID" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::StgSourceCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::StgDescCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::PackageID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Purchase Analysis"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{A6FD0247-6E3E-427F-85F6-1B5C4C43E835}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Purchase Analysis"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Purchase Analysis\Balanced Data Distributor"
+              componentClassID="Microsoft.BDD"
+              contactInfo="Balanced Data Distributor;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Evaluates and directs rows in a dataset to multiple destinations."
+              name="Balanced Data Distributor">
+              <inputs>
+                <input
+                  refId="Package\Load Purchase Analysis\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]"
+                  description="Input to the Balanced Data      Distributor Transformation"
+                  name="Balanced Data Distributor Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Purchase Analysis\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 1]"
+                  deleteOutputOnPathDetached="true"
+                  exclusionGroup="1"
+                  name="Balanced Data Distributor Output 1"
+                  synchronousInputId="Package\Load Purchase Analysis\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Purchase Analysis\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 2]"
+                  deleteOutputOnPathDetached="true"
+                  exclusionGroup="1"
+                  name="Balanced Data Distributor Output 2"
+                  synchronousInputId="Package\Load Purchase Analysis\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Purchase Analysis\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 3]"
+                  deleteOutputOnPathDetached="true"
+                  exclusionGroup="1"
+                  name="Balanced Data Distributor Output 3"
+                  synchronousInputId="Package\Load Purchase Analysis\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Purchase Analysis\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 4]"
+                  dangling="true"
+                  deleteOutputOnPathDetached="true"
+                  exclusionGroup="1"
+                  name="Balanced Data Distributor Output 4"
+                  synchronousInputId="Package\Load Purchase Analysis\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Extract OLTP Purchase Analysis"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">IF (select count(*) from [Tesca EDW Database].tesca.Fact_Purchase_Analysis)&lt;=0 
+BEGIN
+
+Select p.TransactionID,p.TransactionNO, Convert(date, TransDate) TransDate, CONVERT(date,OrderDate) OrderDate,
+CONVERT(date, p.DeliveryDate) DeliveryDate, Convert(date, p.ShipDate)ShipDate,p.VendorID,p.EmployeeID,p.ProductID,p.StoreID,p.Quantity,p.LineAmount,p.TaxAmount, Datediff(day, CONVERT(date, OrderDate), convert(date, DeliveryDate))+1 as Delivery_Services, Getdate() as Loaddate
+
+From  PurchaseTransaction  p  
+Where  convert(date,TransDate)&lt;= dateadd(day, -1, convert(date,getdate()))
+END
+ELSE
+
+BEGIN
+
+Select p.TransactionID,p.TransactionNO,Convert(date, TransDate) TransDate, CONVERT(date,OrderDate) OrderDate,
+CONVERT(date, p.DeliveryDate) DeliveryDate, Convert(date, p.ShipDate)ShipDate,p.VendorID,p.EmployeeID,p.ProductID,p.StoreID,p.Quantity,p.LineAmount,p.TaxAmount, Datediff(day, CONVERT(date, OrderDate), convert(date, DeliveryDate))+1 as Delivery_Services, Getdate() as Loaddate
+
+From  PurchaseTransaction  p  
+Where  convert(date,TransDate) = dateadd(day, -1,convert(date,getdate()))
+END</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Connections[OleDbConnection]"
+                  connectionManagerID="{A2431D9F-BD20-4BB4-B07E-CDD53EBA6DA1}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Tesca OLTP Database]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransactionID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[TransactionID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransactionID]"
+                      name="TransactionID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransactionNO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[TransactionNO]"
+                      length="50"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransactionNO]"
+                      name="TransactionNO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[TransDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransDate]"
+                      name="TransDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[OrderDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[OrderDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[OrderDate]"
+                      name="OrderDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[DeliveryDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[DeliveryDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[DeliveryDate]"
+                      name="DeliveryDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[ShipDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[ShipDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[ShipDate]"
+                      name="ShipDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[VendorID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[VendorID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[VendorID]"
+                      name="VendorID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[EmployeeID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[EmployeeID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[EmployeeID]"
+                      name="EmployeeID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[ProductID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[ProductID]"
+                      name="ProductID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[StoreID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[StoreID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[StoreID]"
+                      name="StoreID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Quantity]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Quantity]"
+                      name="Quantity"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[LineAmount]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[LineAmount]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[LineAmount]"
+                      name="LineAmount"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TaxAmount]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[TaxAmount]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TaxAmount]"
+                      name="TaxAmount"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Delivery_Services]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[Delivery_Services]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Delivery_Services]"
+                      name="Delivery_Services"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Loaddate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[Loaddate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Loaddate]"
+                      name="Loaddate"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[TransactionID]"
+                      dataType="i4"
+                      name="TransactionID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[TransactionNO]"
+                      dataType="wstr"
+                      length="50"
+                      name="TransactionNO" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[TransDate]"
+                      dataType="dbDate"
+                      name="TransDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[OrderDate]"
+                      dataType="dbDate"
+                      name="OrderDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[DeliveryDate]"
+                      dataType="dbDate"
+                      name="DeliveryDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[ShipDate]"
+                      dataType="dbDate"
+                      name="ShipDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[VendorID]"
+                      dataType="i4"
+                      name="VendorID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[EmployeeID]"
+                      dataType="i4"
+                      name="EmployeeID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[StoreID]"
+                      dataType="i4"
+                      name="StoreID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                      dataType="r8"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[LineAmount]"
+                      dataType="r8"
+                      name="LineAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[TaxAmount]"
+                      dataType="r8"
+                      name="TaxAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[Delivery_Services]"
+                      dataType="i4"
+                      name="Delivery_Services" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].ExternalColumns[Loaddate]"
+                      dataType="dbTimeStamp"
+                      name="Loaddate" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[TransactionID]"
+                      dataType="i4"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[TransactionID]"
+                      name="TransactionID" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[TransactionNO]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[TransactionNO]"
+                      name="TransactionNO" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[TransDate]"
+                      dataType="dbDate"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[TransDate]"
+                      name="TransDate" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[OrderDate]"
+                      dataType="dbDate"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[OrderDate]"
+                      name="OrderDate" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[DeliveryDate]"
+                      dataType="dbDate"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[DeliveryDate]"
+                      name="DeliveryDate" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[ShipDate]"
+                      dataType="dbDate"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[ShipDate]"
+                      name="ShipDate" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[VendorID]"
+                      dataType="i4"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[VendorID]"
+                      name="VendorID" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[EmployeeID]"
+                      dataType="i4"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[EmployeeID]"
+                      name="EmployeeID" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                      dataType="i4"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                      name="ProductID" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[StoreID]"
+                      dataType="i4"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[StoreID]"
+                      name="StoreID" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                      dataType="r8"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                      name="Quantity" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[LineAmount]"
+                      dataType="r8"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[LineAmount]"
+                      name="LineAmount" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[TaxAmount]"
+                      dataType="r8"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[TaxAmount]"
+                      name="TaxAmount" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[Delivery_Services]"
+                      dataType="i4"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[Delivery_Services]"
+                      name="Delivery_Services" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[Loaddate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[Loaddate]"
+                      name="Loaddate" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load Purchase Analysis Staging"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[tescadb].[Purchase_Analysis]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Connections[OleDbConnection]"
+                  connectionManagerID="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Tesca Staging Database]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[TransactionID]"
+                      cachedDataType="i4"
+                      cachedName="TransactionID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[TransactionID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransactionID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[TransactionNO]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="TransactionNO"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[TransactionNO]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransactionNO]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[TransDate]"
+                      cachedDataType="dbDate"
+                      cachedName="TransDate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[TransDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransDate]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[OrderDate]"
+                      cachedDataType="dbDate"
+                      cachedName="OrderDate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[OrderDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[OrderDate]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[DeliveryDate]"
+                      cachedDataType="dbDate"
+                      cachedName="DeliveryDate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[DeliveryDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[DeliveryDate]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[ShipDate]"
+                      cachedDataType="dbDate"
+                      cachedName="ShipDate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[ShipDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[ShipDate]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[VendorID]"
+                      cachedDataType="i4"
+                      cachedName="VendorID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[VendorID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[VendorID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[EmployeeID]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[EmployeeID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[EmployeeID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[ProductID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[StoreID]"
+                      cachedDataType="i4"
+                      cachedName="StoreID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[StoreID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[StoreID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[Quantity]"
+                      cachedDataType="r8"
+                      cachedName="Quantity"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Quantity]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[LineAmount]"
+                      cachedDataType="r8"
+                      cachedName="LineAmount"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[LineAmount]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[LineAmount]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[TaxAmount]"
+                      cachedDataType="r8"
+                      cachedName="TaxAmount"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[TaxAmount]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TaxAmount]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[Delivery_Services]"
+                      cachedDataType="i4"
+                      cachedName="Delivery_Services"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[Delivery_Services]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Delivery_Services]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].Columns[Loaddate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Loaddate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[LoadDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Loaddate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[TransactionID]"
+                      dataType="i4"
+                      name="TransactionID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[TransactionNO]"
+                      dataType="wstr"
+                      length="50"
+                      name="TransactionNO" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[TransDate]"
+                      dataType="dbDate"
+                      name="TransDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[OrderDate]"
+                      dataType="dbDate"
+                      name="OrderDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[DeliveryDate]"
+                      dataType="dbDate"
+                      name="DeliveryDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[ShipDate]"
+                      dataType="dbDate"
+                      name="ShipDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[VendorID]"
+                      dataType="i4"
+                      name="VendorID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[EmployeeID]"
+                      dataType="i4"
+                      name="EmployeeID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[StoreID]"
+                      dataType="i4"
+                      name="StoreID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      dataType="r8"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[LineAmount]"
+                      dataType="r8"
+                      name="LineAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[TaxAmount]"
+                      dataType="r8"
+                      name="TaxAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[Delivery_Services]"
+                      dataType="i4"
+                      name="Delivery_Services" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input].ExternalColumns[LoadDate]"
+                      dataType="dbTimeStamp"
+                      name="LoadDate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load Purchase Analysis Staging 1"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[tescadb].[Purchase_Analysis]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Connections[OleDbConnection]"
+                  connectionManagerID="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Tesca Staging Database]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[TransactionID]"
+                      cachedDataType="i4"
+                      cachedName="TransactionID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[TransactionID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransactionID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[TransactionNO]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="TransactionNO"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[TransactionNO]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransactionNO]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[TransDate]"
+                      cachedDataType="dbDate"
+                      cachedName="TransDate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[TransDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransDate]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[OrderDate]"
+                      cachedDataType="dbDate"
+                      cachedName="OrderDate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[OrderDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[OrderDate]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[DeliveryDate]"
+                      cachedDataType="dbDate"
+                      cachedName="DeliveryDate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[DeliveryDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[DeliveryDate]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[ShipDate]"
+                      cachedDataType="dbDate"
+                      cachedName="ShipDate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[ShipDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[ShipDate]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[VendorID]"
+                      cachedDataType="i4"
+                      cachedName="VendorID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[VendorID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[VendorID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[EmployeeID]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[EmployeeID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[EmployeeID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[ProductID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[StoreID]"
+                      cachedDataType="i4"
+                      cachedName="StoreID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[StoreID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[StoreID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[Quantity]"
+                      cachedDataType="r8"
+                      cachedName="Quantity"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Quantity]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[LineAmount]"
+                      cachedDataType="r8"
+                      cachedName="LineAmount"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[LineAmount]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[LineAmount]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[TaxAmount]"
+                      cachedDataType="r8"
+                      cachedName="TaxAmount"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[TaxAmount]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TaxAmount]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[Delivery_Services]"
+                      cachedDataType="i4"
+                      cachedName="Delivery_Services"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[Delivery_Services]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Delivery_Services]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].Columns[Loaddate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Loaddate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[LoadDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Loaddate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[TransactionID]"
+                      dataType="i4"
+                      name="TransactionID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[TransactionNO]"
+                      dataType="wstr"
+                      length="50"
+                      name="TransactionNO" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[TransDate]"
+                      dataType="dbDate"
+                      name="TransDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[OrderDate]"
+                      dataType="dbDate"
+                      name="OrderDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[DeliveryDate]"
+                      dataType="dbDate"
+                      name="DeliveryDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[ShipDate]"
+                      dataType="dbDate"
+                      name="ShipDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[VendorID]"
+                      dataType="i4"
+                      name="VendorID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[EmployeeID]"
+                      dataType="i4"
+                      name="EmployeeID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[StoreID]"
+                      dataType="i4"
+                      name="StoreID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      dataType="r8"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[LineAmount]"
+                      dataType="r8"
+                      name="LineAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[TaxAmount]"
+                      dataType="r8"
+                      name="TaxAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[Delivery_Services]"
+                      dataType="i4"
+                      name="Delivery_Services" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[LoadDate]"
+                      dataType="dbTimeStamp"
+                      name="LoadDate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load Purchase Analysis Staging 2"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[tescadb].[Purchase_Analysis]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Connections[OleDbConnection]"
+                  connectionManagerID="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Tesca Staging Database]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[TransactionID]"
+                      cachedDataType="i4"
+                      cachedName="TransactionID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[TransactionID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransactionID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[TransactionNO]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="TransactionNO"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[TransactionNO]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransactionNO]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[TransDate]"
+                      cachedDataType="dbDate"
+                      cachedName="TransDate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[TransDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TransDate]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[OrderDate]"
+                      cachedDataType="dbDate"
+                      cachedName="OrderDate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[OrderDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[OrderDate]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[DeliveryDate]"
+                      cachedDataType="dbDate"
+                      cachedName="DeliveryDate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[DeliveryDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[DeliveryDate]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[ShipDate]"
+                      cachedDataType="dbDate"
+                      cachedName="ShipDate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[ShipDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[ShipDate]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[VendorID]"
+                      cachedDataType="i4"
+                      cachedName="VendorID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[VendorID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[VendorID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[EmployeeID]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[EmployeeID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[EmployeeID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[ProductID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[StoreID]"
+                      cachedDataType="i4"
+                      cachedName="StoreID"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[StoreID]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[StoreID]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[Quantity]"
+                      cachedDataType="r8"
+                      cachedName="Quantity"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Quantity]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[LineAmount]"
+                      cachedDataType="r8"
+                      cachedName="LineAmount"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[LineAmount]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[LineAmount]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[TaxAmount]"
+                      cachedDataType="r8"
+                      cachedName="TaxAmount"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[TaxAmount]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[TaxAmount]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[Delivery_Services]"
+                      cachedDataType="i4"
+                      cachedName="Delivery_Services"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[Delivery_Services]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Delivery_Services]" />
+                    <inputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].Columns[Loaddate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Loaddate"
+                      externalMetadataColumnId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[LoadDate]"
+                      lineageId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output].Columns[Loaddate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[TransactionID]"
+                      dataType="i4"
+                      name="TransactionID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[TransactionNO]"
+                      dataType="wstr"
+                      length="50"
+                      name="TransactionNO" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[TransDate]"
+                      dataType="dbDate"
+                      name="TransDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[OrderDate]"
+                      dataType="dbDate"
+                      name="OrderDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[DeliveryDate]"
+                      dataType="dbDate"
+                      name="DeliveryDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[ShipDate]"
+                      dataType="dbDate"
+                      name="ShipDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[VendorID]"
+                      dataType="i4"
+                      name="VendorID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[EmployeeID]"
+                      dataType="i4"
+                      name="EmployeeID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[StoreID]"
+                      dataType="i4"
+                      name="StoreID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      dataType="r8"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[LineAmount]"
+                      dataType="r8"
+                      name="LineAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[TaxAmount]"
+                      dataType="r8"
+                      name="TaxAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[Delivery_Services]"
+                      dataType="i4"
+                      name="Delivery_Services" />
+                    <externalMetadataColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[LoadDate]"
+                      dataType="dbTimeStamp"
+                      name="LoadDate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Purchase Analysis.Paths[Balanced Data Distributor Output 1]"
+              endId="Package\Load Purchase Analysis\Load Purchase Analysis Staging.Inputs[OLE DB Destination Input]"
+              name="Balanced Data Distributor Output 1"
+              startId="Package\Load Purchase Analysis\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 1]" />
+            <path
+              refId="Package\Load Purchase Analysis.Paths[Balanced Data Distributor Output 2]"
+              endId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1.Inputs[OLE DB Destination Input]"
+              name="Balanced Data Distributor Output 2"
+              startId="Package\Load Purchase Analysis\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 2]" />
+            <path
+              refId="Package\Load Purchase Analysis.Paths[Balanced Data Distributor Output 3]"
+              endId="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2.Inputs[OLE DB Destination Input]"
+              name="Balanced Data Distributor Output 3"
+              startId="Package\Load Purchase Analysis\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 3]" />
+            <path
+              refId="Package\Load Purchase Analysis.Paths[OLE DB Source Output]"
+              endId="Package\Load Purchase Analysis\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Source Count"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{79502B6C-5665-478F-80E9-02D00CB5BB8C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Source Count"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A2431D9F-BD20-4BB4-B07E-CDD53EBA6DA1}"
+          SQLTask:SqlStatementSource="Declare @StgSourceCount Bigint = 0&#xA;&#xA;IF (select count(*) from [Tesca EDW Database].tesca.Fact_Purchase_Analysis)&lt;=0 &#xA;&#x9;&#xA;BEGIN&#xA;&#xA;Select @StgSourceCount= ( Select count (*) as StgSourceCount From  PurchaseTransaction  p  &#xA;Where  convert(date,TransDate)&lt;= dateadd(day, -1,convert(date,getdate()))&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;END&#xA;ELSE&#xA;&#xA;BEGIN&#xA;&#xA;Select @StgSourceCount=( Select count(*) as StgSourceCount From  PurchaseTransaction  p  &#xA;Where  convert(date,TransDate) = dateadd(day, -1,convert(date,getdate())))&#xA;END&#xA;&#xA;&#xA;Select @StgSourceCount as StgSourceCount&#xA;"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="StgSourceCount"
+            SQLTask:DtsVariableName="User::StgSourceCount" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Purchase Analysis"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9CD51C49-6A56-4DAD-9D2D-8799D62B5E87}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Purchase Analysis"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}"
+          SQLTask:SqlStatementSource=" Truncate Table tescaDB.Purchase_Analysis" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{989D23AA-A155-449E-B9AE-8D5FF28EE1C4}"
+      DTS:From="Package\Truncate Purchase Analysis"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Source Count" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{26EC501D-96AC-4B3B-9762-36876599B204}"
+      DTS:From="Package\Source Count"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load Purchase Analysis" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{9E7738A3-6616-4618-84BE-590802CEC799}"
+      DTS:From="Package\Load Purchase Analysis"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Desc Count" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{DC82F5E2-339B-4C18-86AA-0DADDA3D3766}"
+      DTS:From="Package\Desc Count"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Load Metrics" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="188.8,41.6"
+          Id="Package\Desc Count"
+          TopLeft="245.000004172325,332.647063488779" />
+        <NodeLayout
+          Size="157.6,41.6"
+          Id="Package\Load Metrics"
+          TopLeft="256.428575795524,423.64706476502" />
+        <NodeLayout
+          Size="188,41.6"
+          Id="Package\Load Purchase Analysis"
+          TopLeft="252.857147163275,234.000003281762" />
+        <NodeLayout
+          Size="198.4,41.6"
+          Id="Package\Source Count"
+          TopLeft="248.571432804575,136.8823548609" />
+        <NodeLayout
+          Size="207.2,41.6"
+          Id="Package\Truncate Purchase Analysis"
+          TopLeft="249.285718531025,37.470588760805" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="350.3285756678,79.070588760805">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57.8117661000948"
+              Start="0,0"
+              End="0,50.3117661000948">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.3117661000948" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="347.314289983925,178.4823548609">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,55.5176484208618"
+              Start="0,0"
+              End="0,48.0176484208618">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.0176484208618" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="343.1285756678,275.600003281762">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57.0470602070173"
+              Start="0,0"
+              End="0,49.5470602070173">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.5470602070173" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="337.314289983925,374.247063488779">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49.4000012762407"
+              Start="0,0"
+              End="0,41.9000012762407">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.9000012762407" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Purchase Analysis">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="236,41.6"
+          Id="Package\Load Purchase Analysis\Load Purchase Analysis Staging 1"
+          TopLeft="298.57143365607,300.529415979517" />
+        <NodeLayout
+          Size="236,41.6"
+          Id="Package\Load Purchase Analysis\Load Purchase Analysis Staging 2"
+          TopLeft="579.771437232349,302.717649879423" />
+        <NodeLayout
+          Size="226.4,41.6"
+          Id="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis"
+          TopLeft="288.571433485771,62.7058832323675" />
+        <NodeLayout
+          Size="198.4,41.6"
+          Id="Package\Load Purchase Analysis\Balanced Data Distributor"
+          TopLeft="293.57143357092,181.235296659404" />
+        <NodeLayout
+          Size="226.4,41.6"
+          Id="Package\Load Purchase Analysis\Load Purchase Analysis Staging"
+          TopLeft="28.5714290579972,300.529415979517" />
+        <EdgeLayout
+          Id="Package\Load Purchase Analysis.Paths[Balanced Data Distributor Output 1]"
+          TopLeft="345.17143357092,222.835296659404">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-203.400004512923,77.6941193201133"
+              Start="0,0"
+              End="-203.400004512923,70.1941193201133">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.5849904304897" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.5849904304897"
+                    Point2="0,26.5849904304897"
+                    Point3="-4,26.5849904304897" />
+                  <mssgle:LineSegment
+                    End="-199.400004512923,26.5849904304897" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-199.400004512923,26.5849904304897"
+                    Point2="-203.400004512923,26.5849904304897"
+                    Point3="-203.400004512923,30.5849904304897" />
+                  <mssgle:LineSegment
+                    End="-203.400004512923,70.1941193201133" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-179.400568662711,31.5849904304897,155.4011328125,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Purchase Analysis.Paths[OLE DB Source Output]"
+          TopLeft="401.771433485771,104.305883232368">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-8.99999991485032,76.9294134270361"
+              Start="0,0"
+              End="-8.99999991485032,69.4294134270361">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.464706713518" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34.464706713518"
+                    Point2="0,38.464706713518"
+                    Point3="-4,38.464706713518" />
+                  <mssgle:LineSegment
+                    End="-4.99999991485032,38.464706713518" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-4.99999991485032,38.464706713518"
+                    Point2="-8.99999991485032,38.464706713518"
+                    Point3="-8.99999991485032,42.464706713518" />
+                  <mssgle:LineSegment
+                    End="-8.99999991485032,69.4294134270361" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Purchase Analysis.Paths[Balanced Data Distributor Output 3]"
+          TopLeft="440.37143357092,222.835296659404">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="257.400003661428,79.882353220019"
+              Start="0,0"
+              End="257.400003661428,72.382353220019">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.3337495102983" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.3337495102983"
+                    Point2="0,27.3337495102983"
+                    Point3="4,27.3337495102983" />
+                  <mssgle:LineSegment
+                    End="253.400003661428,27.3337495102983" />
+                  <mssgle:CubicBezierSegment
+                    Point1="253.400003661428,27.3337495102983"
+                    Point2="257.400003661428,27.3337495102983"
+                    Point3="257.400003661428,31.3337495102983" />
+                  <mssgle:LineSegment
+                    End="257.400003661428,72.382353220019" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="50.8773651119642,32.3337495102983,155.6452734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Purchase Analysis.Paths[Balanced Data Distributor Output 2]"
+          TopLeft="420.538100280162,222.835296659404">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,77.6941193201138"
+              Start="0,0"
+              End="0,70.1941193201138">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,70.1941193201138" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-77.88611328125,29.2923721600569,155.7722265625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Purchase Analysis\Load Purchase Analysis Staging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Purchase Analysis\Extract OLTP Purchase Analysis">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

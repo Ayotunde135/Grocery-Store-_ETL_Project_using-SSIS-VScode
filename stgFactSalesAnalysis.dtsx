@@ -1,0 +1,1871 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/19/2022 8:40:05 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AYOTUNDE"
+  DTS:CreatorName="AYOTUNDE\ogunb"
+  DTS:DTSID="{8F5B2A23-F8AA-4524-8B8E-49DE3546C582}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.123"
+  DTS:LocaleID="4105"
+  DTS:ObjectName="stgFactSalesAnalysis"
+  DTS:PackageType="5"
+  DTS:VersionBuild="7"
+  DTS:VersionGUID="{1AF5DB9B-07E7-48C0-B685-076DEB7234C0}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E7E13698-3D15-46F1-9685-FA06B3D331C2}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="PackageID">
+      <DTS:VariableValue
+        DTS:DataType="3">11</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C0706B7D-1D48-4D30-AB2B-1E4A27FAD281}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StgDescCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{84AB4835-F651-41E8-8BE6-12B979BA54AD}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StgSourceCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Desc count"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{7E14DB70-7181-42FE-A9F4-B138336EB13E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Desc count"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}"
+          SQLTask:SqlStatementSource="Select count(*) as StgDescCount from tescaDb.sales_Trans"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="StgDescCount"
+            SQLTask:DtsVariableName="User::StgDescCount" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Metrics"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{65FEB5FF-45F2-4C74-9889-9FAEEBE1BC54}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Metrics"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F33CED1F-4B97-43E4-863E-A1758E9AED50}"
+          SQLTask:SqlStatementSource=" Declare @StgSourceCount bigint=?&#xA;  Declare @StgDescCount bigint=?&#xA;  Declare @PackageID int=?&#xA;&#xA;  Insert into control.metrics&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;PackageID,stgSourceCount,stgDescCount,Rundate&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;  &#xA;  Select @PackageID, @StgSourceCount, @StgDescCount,   Getdate()&#xA;  Update Control.Package   set LastRundate=Getdate() &#xA;  Where   PackageId=@PackageID" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::StgSourceCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::StgDescCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::PackageID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Sales Analysis Staging"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{31DCA0D1-D9A4-4167-908D-6E45BC96A75E}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Sales Analysis Staging"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Sales Analysis Staging\Balanced Data Distributor"
+              componentClassID="Microsoft.BDD"
+              contactInfo="Balanced Data Distributor;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Evaluates and directs rows in a dataset to multiple destinations."
+              name="Balanced Data Distributor">
+              <inputs>
+                <input
+                  refId="Package\Load Sales Analysis Staging\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]"
+                  description="Input to the Balanced Data      Distributor Transformation"
+                  name="Balanced Data Distributor Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sales Analysis Staging\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 1]"
+                  deleteOutputOnPathDetached="true"
+                  exclusionGroup="1"
+                  name="Balanced Data Distributor Output 1"
+                  synchronousInputId="Package\Load Sales Analysis Staging\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Sales Analysis Staging\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 2]"
+                  deleteOutputOnPathDetached="true"
+                  exclusionGroup="1"
+                  name="Balanced Data Distributor Output 2"
+                  synchronousInputId="Package\Load Sales Analysis Staging\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Sales Analysis Staging\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 3]"
+                  deleteOutputOnPathDetached="true"
+                  exclusionGroup="1"
+                  name="Balanced Data Distributor Output 3"
+                  synchronousInputId="Package\Load Sales Analysis Staging\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Sales Analysis Staging\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 4]"
+                  dangling="true"
+                  deleteOutputOnPathDetached="true"
+                  exclusionGroup="1"
+                  name="Balanced Data Distributor Output 4"
+                  synchronousInputId="Package\Load Sales Analysis Staging\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Sales Analysis Staging\Extract Sales Analysis"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Extract Sales Analysis"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">IF (Select count (*) from [Tesca EDW Database].tesca.fact_sales_analysis) &gt; 0
+		
+BEGIN
+
+Select  s.TransactionID, s.TransactionNO, convert(date, TransDate) as TransDate, datepart(hour, TransDate) TransHour,
+convert(date, OrderDate) as OrderDate, datepart(hour, OrderDate) OrderHour, convert(date,deliveryDate) as DeliveryDate, ChannelID,CustomerID,EmployeeID, ProductID,StoreID,PromotionID,
+Quantity,TaxAmount,LineAmount, LineDiscountAmount,
+GetDate() as LoadDate
+
+From salesTransaction s
+Where   convert(date, TransDate) =dateadd(day, -1 , convert(date,getdate())) 	
+
+END
+
+ELSE 
+
+BEGIN
+
+Select  s.TransactionID, s.TransactionNO,
+convert(date, TransDate) as TransDate, datepart(hour, TransDate) TransHour,
+convert(date, OrderDate) as OrderDate, datepart(hour, OrderDate) OrderHour,
+convert(date,deliveryDate) DeliveryDate, 
+ChannelID,CustomerID,EmployeeID, ProductID,StoreID,PromotionID,
+Quantity,TaxAmount,LineAmount, LineDiscountAmount,
+GetDate() as LoadDate
+
+From salesTransaction s
+Where   convert(date, TransDate) &lt;=dateadd(day, -1 , convert(date,getdate()))    
+END</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Connections[OleDbConnection]"
+                  connectionManagerID="{A2431D9F-BD20-4BB4-B07E-CDD53EBA6DA1}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Tesca OLTP Database]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransactionID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[TransactionID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransactionID]"
+                      name="TransactionID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransactionNO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[TransactionNO]"
+                      length="50"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransactionNO]"
+                      name="TransactionNO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[TransDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransDate]"
+                      name="TransDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransHour]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[TransHour]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransHour]"
+                      name="TransHour"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[OrderDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[OrderDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[OrderDate]"
+                      name="OrderDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[OrderHour]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[OrderHour]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[OrderHour]"
+                      name="OrderHour"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[DeliveryDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[DeliveryDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[DeliveryDate]"
+                      name="DeliveryDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[ChannelID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[ChannelID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[ChannelID]"
+                      name="ChannelID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                      name="CustomerID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[EmployeeID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[EmployeeID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[EmployeeID]"
+                      name="EmployeeID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[ProductID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[ProductID]"
+                      name="ProductID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[StoreID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[StoreID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[StoreID]"
+                      name="StoreID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[PromotionID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[PromotionID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[PromotionID]"
+                      name="PromotionID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[Quantity]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[Quantity]"
+                      name="Quantity"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TaxAmount]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[TaxAmount]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TaxAmount]"
+                      name="TaxAmount"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LineAmount]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[LineAmount]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LineAmount]"
+                      name="LineAmount"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LineDiscountAmount]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[LineDiscountAmount]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LineDiscountAmount]"
+                      name="LineDiscountAmount"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LoadDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[LoadDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LoadDate]"
+                      name="LoadDate"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[TransactionID]"
+                      dataType="i4"
+                      name="TransactionID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[TransactionNO]"
+                      dataType="wstr"
+                      length="50"
+                      name="TransactionNO" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[TransDate]"
+                      dataType="dbDate"
+                      name="TransDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[TransHour]"
+                      dataType="i4"
+                      name="TransHour" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[OrderDate]"
+                      dataType="dbDate"
+                      name="OrderDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[OrderHour]"
+                      dataType="i4"
+                      name="OrderHour" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[DeliveryDate]"
+                      dataType="dbDate"
+                      name="DeliveryDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[ChannelID]"
+                      dataType="i4"
+                      name="ChannelID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                      dataType="i4"
+                      name="CustomerID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[EmployeeID]"
+                      dataType="i4"
+                      name="EmployeeID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[StoreID]"
+                      dataType="i4"
+                      name="StoreID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[PromotionID]"
+                      dataType="i4"
+                      name="PromotionID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                      dataType="r8"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[TaxAmount]"
+                      dataType="r8"
+                      name="TaxAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[LineAmount]"
+                      dataType="r8"
+                      name="LineAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[LineDiscountAmount]"
+                      dataType="r8"
+                      name="LineDiscountAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].ExternalColumns[LoadDate]"
+                      dataType="dbTimeStamp"
+                      name="LoadDate" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[TransactionID]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[TransactionID]"
+                      name="TransactionID" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[TransactionNO]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[TransactionNO]"
+                      name="TransactionNO" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[TransDate]"
+                      dataType="dbDate"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[TransDate]"
+                      name="TransDate" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[TransHour]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[TransHour]"
+                      name="TransHour" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[OrderDate]"
+                      dataType="dbDate"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[OrderDate]"
+                      name="OrderDate" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[OrderHour]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[OrderHour]"
+                      name="OrderHour" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[DeliveryDate]"
+                      dataType="dbDate"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[DeliveryDate]"
+                      name="DeliveryDate" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[ChannelID]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[ChannelID]"
+                      name="ChannelID" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                      name="CustomerID" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[EmployeeID]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[EmployeeID]"
+                      name="EmployeeID" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                      name="ProductID" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[StoreID]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[StoreID]"
+                      name="StoreID" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[PromotionID]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[PromotionID]"
+                      name="PromotionID" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                      dataType="r8"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                      name="Quantity" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[TaxAmount]"
+                      dataType="r8"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[TaxAmount]"
+                      name="TaxAmount" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[LineAmount]"
+                      dataType="r8"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[LineAmount]"
+                      name="LineAmount" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[LineDiscountAmount]"
+                      dataType="r8"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[LineDiscountAmount]"
+                      name="LineDiscountAmount" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[LoadDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[LoadDate]"
+                      name="LoadDate" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Sales Analysis Staging\Load Sales Analysis"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load Sales Analysis"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[tescadb].[sales_trans]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Connections[OleDbConnection]"
+                  connectionManagerID="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Tesca Staging Database]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[TransactionID]"
+                      cachedDataType="i4"
+                      cachedName="TransactionID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[TransactionID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransactionID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[TransactionNO]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="TransactionNO"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[TransactionNo]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransactionNO]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[TransDate]"
+                      cachedDataType="dbDate"
+                      cachedName="TransDate"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[TransDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransDate]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[TransHour]"
+                      cachedDataType="i4"
+                      cachedName="TransHour"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[TransHour]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransHour]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[OrderDate]"
+                      cachedDataType="dbDate"
+                      cachedName="OrderDate"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[OrderDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[OrderDate]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[OrderHour]"
+                      cachedDataType="i4"
+                      cachedName="OrderHour"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[OrderHour]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[OrderHour]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[DeliveryDate]"
+                      cachedDataType="dbDate"
+                      cachedName="DeliveryDate"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[DeliveryDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[DeliveryDate]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[ChannelID]"
+                      cachedDataType="i4"
+                      cachedName="ChannelID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[ChannelID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[ChannelID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[CustomerID]"
+                      cachedDataType="i4"
+                      cachedName="CustomerID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[CustomerID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[EmployeeID]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[EmployeeID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[EmployeeID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[ProductID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[StoreID]"
+                      cachedDataType="i4"
+                      cachedName="StoreID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[StoreID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[StoreID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[PromotionID]"
+                      cachedDataType="i4"
+                      cachedName="PromotionID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[PromotionID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[PromotionID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[Quantity]"
+                      cachedDataType="r8"
+                      cachedName="Quantity"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[Quantity]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[TaxAmount]"
+                      cachedDataType="r8"
+                      cachedName="TaxAmount"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[TaxAmount]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TaxAmount]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[LineAmount]"
+                      cachedDataType="r8"
+                      cachedName="LineAmount"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[LineAmount]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LineAmount]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[LineDiscountAmount]"
+                      cachedDataType="r8"
+                      cachedName="LineDiscountAmount"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[LineDiscountAmount]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LineDiscountAmount]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].Columns[LoadDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="LoadDate"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[LoadDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LoadDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[TransactionID]"
+                      dataType="i4"
+                      name="TransactionID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[TransactionNo]"
+                      dataType="wstr"
+                      length="50"
+                      name="TransactionNo" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[TransDate]"
+                      dataType="dbDate"
+                      name="TransDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[TransHour]"
+                      dataType="i4"
+                      name="TransHour" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[OrderDate]"
+                      dataType="dbDate"
+                      name="OrderDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[OrderHour]"
+                      dataType="i4"
+                      name="OrderHour" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[DeliveryDate]"
+                      dataType="dbDate"
+                      name="DeliveryDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[ChannelID]"
+                      dataType="i4"
+                      name="ChannelID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                      dataType="i4"
+                      name="CustomerID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[EmployeeID]"
+                      dataType="i4"
+                      name="EmployeeID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[StoreID]"
+                      dataType="i4"
+                      name="StoreID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[PromotionID]"
+                      dataType="i4"
+                      name="PromotionID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      dataType="r8"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[TaxAmount]"
+                      dataType="r8"
+                      name="TaxAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[LineAmount]"
+                      dataType="r8"
+                      name="LineAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[LineDiscountAmount]"
+                      dataType="r8"
+                      name="LineDiscountAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input].ExternalColumns[LoadDate]"
+                      dataType="dbTimeStamp"
+                      name="LoadDate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Load Sales Analysis.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Load Sales Analysis.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load Sales Analysis 1"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[tescadb].[sales_trans]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Connections[OleDbConnection]"
+                  connectionManagerID="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Tesca Staging Database]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[TransactionID]"
+                      cachedDataType="i4"
+                      cachedName="TransactionID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[TransactionID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransactionID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[TransactionNO]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="TransactionNO"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[TransactionNo]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransactionNO]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[TransDate]"
+                      cachedDataType="dbDate"
+                      cachedName="TransDate"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[TransDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransDate]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[TransHour]"
+                      cachedDataType="i4"
+                      cachedName="TransHour"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[TransHour]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransHour]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[OrderDate]"
+                      cachedDataType="dbDate"
+                      cachedName="OrderDate"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[OrderDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[OrderDate]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[OrderHour]"
+                      cachedDataType="i4"
+                      cachedName="OrderHour"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[OrderHour]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[OrderHour]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[DeliveryDate]"
+                      cachedDataType="dbDate"
+                      cachedName="DeliveryDate"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[DeliveryDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[DeliveryDate]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[ChannelID]"
+                      cachedDataType="i4"
+                      cachedName="ChannelID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[ChannelID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[ChannelID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[CustomerID]"
+                      cachedDataType="i4"
+                      cachedName="CustomerID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[CustomerID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[EmployeeID]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[EmployeeID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[EmployeeID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[ProductID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[StoreID]"
+                      cachedDataType="i4"
+                      cachedName="StoreID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[StoreID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[StoreID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[PromotionID]"
+                      cachedDataType="i4"
+                      cachedName="PromotionID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[PromotionID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[PromotionID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[Quantity]"
+                      cachedDataType="r8"
+                      cachedName="Quantity"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[Quantity]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[TaxAmount]"
+                      cachedDataType="r8"
+                      cachedName="TaxAmount"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[TaxAmount]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TaxAmount]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[LineAmount]"
+                      cachedDataType="r8"
+                      cachedName="LineAmount"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[LineAmount]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LineAmount]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[LineDiscountAmount]"
+                      cachedDataType="r8"
+                      cachedName="LineDiscountAmount"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[LineDiscountAmount]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LineDiscountAmount]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].Columns[LoadDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="LoadDate"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[LoadDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LoadDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[TransactionID]"
+                      dataType="i4"
+                      name="TransactionID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[TransactionNo]"
+                      dataType="wstr"
+                      length="50"
+                      name="TransactionNo" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[TransDate]"
+                      dataType="dbDate"
+                      name="TransDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[TransHour]"
+                      dataType="i4"
+                      name="TransHour" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[OrderDate]"
+                      dataType="dbDate"
+                      name="OrderDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[OrderHour]"
+                      dataType="i4"
+                      name="OrderHour" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[DeliveryDate]"
+                      dataType="dbDate"
+                      name="DeliveryDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[ChannelID]"
+                      dataType="i4"
+                      name="ChannelID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                      dataType="i4"
+                      name="CustomerID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[EmployeeID]"
+                      dataType="i4"
+                      name="EmployeeID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[StoreID]"
+                      dataType="i4"
+                      name="StoreID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[PromotionID]"
+                      dataType="i4"
+                      name="PromotionID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      dataType="r8"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[TaxAmount]"
+                      dataType="r8"
+                      name="TaxAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[LineAmount]"
+                      dataType="r8"
+                      name="LineAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[LineDiscountAmount]"
+                      dataType="r8"
+                      name="LineDiscountAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input].ExternalColumns[LoadDate]"
+                      dataType="dbTimeStamp"
+                      name="LoadDate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load Sales Analysis 2"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[tescadb].[sales_trans]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Connections[OleDbConnection]"
+                  connectionManagerID="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Tesca Staging Database]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[TransactionID]"
+                      cachedDataType="i4"
+                      cachedName="TransactionID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[TransactionID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransactionID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[TransactionNO]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="TransactionNO"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[TransactionNo]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransactionNO]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[TransDate]"
+                      cachedDataType="dbDate"
+                      cachedName="TransDate"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[TransDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransDate]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[TransHour]"
+                      cachedDataType="i4"
+                      cachedName="TransHour"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[TransHour]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TransHour]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[OrderDate]"
+                      cachedDataType="dbDate"
+                      cachedName="OrderDate"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[OrderDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[OrderDate]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[OrderHour]"
+                      cachedDataType="i4"
+                      cachedName="OrderHour"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[OrderHour]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[OrderHour]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[DeliveryDate]"
+                      cachedDataType="dbDate"
+                      cachedName="DeliveryDate"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[DeliveryDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[DeliveryDate]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[ChannelID]"
+                      cachedDataType="i4"
+                      cachedName="ChannelID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[ChannelID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[ChannelID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[CustomerID]"
+                      cachedDataType="i4"
+                      cachedName="CustomerID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[CustomerID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[EmployeeID]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[EmployeeID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[EmployeeID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[ProductID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[StoreID]"
+                      cachedDataType="i4"
+                      cachedName="StoreID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[StoreID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[StoreID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[PromotionID]"
+                      cachedDataType="i4"
+                      cachedName="PromotionID"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[PromotionID]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[PromotionID]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[Quantity]"
+                      cachedDataType="r8"
+                      cachedName="Quantity"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[Quantity]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[TaxAmount]"
+                      cachedDataType="r8"
+                      cachedName="TaxAmount"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[TaxAmount]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[TaxAmount]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[LineAmount]"
+                      cachedDataType="r8"
+                      cachedName="LineAmount"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[LineAmount]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LineAmount]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[LineDiscountAmount]"
+                      cachedDataType="r8"
+                      cachedName="LineDiscountAmount"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[LineDiscountAmount]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LineDiscountAmount]" />
+                    <inputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].Columns[LoadDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="LoadDate"
+                      externalMetadataColumnId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[LoadDate]"
+                      lineageId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output].Columns[LoadDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[TransactionID]"
+                      dataType="i4"
+                      name="TransactionID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[TransactionNo]"
+                      dataType="wstr"
+                      length="50"
+                      name="TransactionNo" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[TransDate]"
+                      dataType="dbDate"
+                      name="TransDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[TransHour]"
+                      dataType="i4"
+                      name="TransHour" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[OrderDate]"
+                      dataType="dbDate"
+                      name="OrderDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[OrderHour]"
+                      dataType="i4"
+                      name="OrderHour" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[DeliveryDate]"
+                      dataType="dbDate"
+                      name="DeliveryDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[ChannelID]"
+                      dataType="i4"
+                      name="ChannelID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                      dataType="i4"
+                      name="CustomerID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[EmployeeID]"
+                      dataType="i4"
+                      name="EmployeeID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[StoreID]"
+                      dataType="i4"
+                      name="StoreID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[PromotionID]"
+                      dataType="i4"
+                      name="PromotionID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      dataType="r8"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[TaxAmount]"
+                      dataType="r8"
+                      name="TaxAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[LineAmount]"
+                      dataType="r8"
+                      name="LineAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[LineDiscountAmount]"
+                      dataType="r8"
+                      name="LineDiscountAmount" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input].ExternalColumns[LoadDate]"
+                      dataType="dbTimeStamp"
+                      name="LoadDate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Sales Analysis Staging.Paths[Balanced Data Distributor Output 1]"
+              endId="Package\Load Sales Analysis Staging\Load Sales Analysis.Inputs[OLE DB Destination Input]"
+              name="Balanced Data Distributor Output 1"
+              startId="Package\Load Sales Analysis Staging\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 1]" />
+            <path
+              refId="Package\Load Sales Analysis Staging.Paths[Balanced Data Distributor Output 2]"
+              endId="Package\Load Sales Analysis Staging\Load Sales Analysis 1.Inputs[OLE DB Destination Input]"
+              name="Balanced Data Distributor Output 2"
+              startId="Package\Load Sales Analysis Staging\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 2]" />
+            <path
+              refId="Package\Load Sales Analysis Staging.Paths[Balanced Data Distributor Output 3]"
+              endId="Package\Load Sales Analysis Staging\Load Sales Analysis 2.Inputs[OLE DB Destination Input]"
+              name="Balanced Data Distributor Output 3"
+              startId="Package\Load Sales Analysis Staging\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 3]" />
+            <path
+              refId="Package\Load Sales Analysis Staging.Paths[OLE DB Source Output]"
+              endId="Package\Load Sales Analysis Staging\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Sales Analysis Staging\Extract Sales Analysis.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SOURCE COUNT"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{EA2F94F7-ABAB-4044-AF8E-6BA962CC2415}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SOURCE COUNT"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A2431D9F-BD20-4BB4-B07E-CDD53EBA6DA1}"
+          SQLTask:SqlStatementSource="Declare @StgSourceCount bigint = 0&#xA;&#xA;&#x9;IF (Select count (*) from [Tesca EDW Database].tesca.fact_sales_analysis) &gt; 0&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;BEGIN&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;Select @StgSourceCount = &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Select count(*) as StgSourceCount From salesTransaction s&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Where convert(date, TransDate) =dateadd(day, -1 , convert(date,getdate()))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; )&#x9;&#xA;&#x9;&#x9;END&#xA;&#x9;ELSE &#xA;&#x9;&#x9;BEGIN&#xA;&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Select @StgSourceCount = &#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Select count(*) as StgSourceCount From salesTransaction s&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Where convert(date, TransDate) &lt;=dateadd(day, -1 , convert(date,getdate()))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;)   &#xA;&#xA;&#x9;&#x9;END&#xA;&#x9;&#x9;Select @StgSourceCount as StgSourceCount"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="StgSourceCount"
+            SQLTask:DtsVariableName="User::StgSourceCount" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Sales Analysis"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{BD2077A3-0FD5-4637-8F1B-740C172AF931}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Sales Analysis"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}"
+          SQLTask:SqlStatementSource=" Truncate Table tescaDb.sales_Trans" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{67FB19D9-FBEC-4E6E-A615-C3DAF6AF4EBE}"
+      DTS:From="Package\Truncate Sales Analysis"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\SOURCE COUNT" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{62B9DFA5-AC16-4C05-AECA-B8F09C1962AC}"
+      DTS:From="Package\SOURCE COUNT"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load Sales Analysis Staging" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{EE5BDC6D-D077-43D4-9C2F-570CEC2599A8}"
+      DTS:From="Package\Load Sales Analysis Staging"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Desc count" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{DBDD2C02-8F3B-4895-B406-84F3DF412812}"
+      DTS:From="Package\Desc count"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Load Metrics" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="170.4,51.2"
+          Id="Package\Desc count"
+          TopLeft="224.285718105278,334.176475274934" />
+        <NodeLayout
+          Size="137.6,41.6"
+          Id="Package\Load Metrics"
+          TopLeft="244.285718445875,436.647064947339" />
+        <NodeLayout
+          Size="208,41.6"
+          Id="Package\Load Sales Analysis Staging"
+          TopLeft="205.000003491129,237.058826854073" />
+        <NodeLayout
+          Size="155.2,41.6"
+          Id="Package\SOURCE COUNT"
+          TopLeft="224.285718105277,143.764707898599" />
+        <NodeLayout
+          Size="188.8,41.6"
+          Id="Package\Truncate Sales Analysis"
+          TopLeft="207.142860670479,54.2941184085133" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="301.714289387878,95.8941184085134">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47.8705894900853"
+              Start="0,0"
+              End="0,40.3705894900853">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.3705894900853" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="305.442860798203,185.364707898599">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,51.6941189554738"
+              Start="0,0"
+              End="0,44.1941189554738">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.1941189554738" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="309.242860798203,278.658826854073">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,55.5176484208612"
+              Start="0,0"
+              End="0,48.0176484208612">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.0176484208612" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="311.285718275577,385.376475274934">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,51.2705896724054"
+              Start="0,0"
+              End="0,43.7705896724054">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.7705896724054" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Sales Analysis Staging">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="172.8,52"
+          Id="Package\Load Sales Analysis Staging\Load Sales Analysis 2"
+          TopLeft="559.285723810293,354.717650608703" />
+        <NodeLayout
+          Size="174.4,49.6"
+          Id="Package\Load Sales Analysis Staging\Load Sales Analysis 1"
+          TopLeft="307.857148099919,360.176475639574" />
+        <NodeLayout
+          Size="180.8,52"
+          Id="Package\Load Sales Analysis Staging\Load Sales Analysis"
+          TopLeft="65.7142868333934,360.176475639574" />
+        <NodeLayout
+          Size="180,41.6"
+          Id="Package\Load Sales Analysis Staging\Extract Sales Analysis"
+          TopLeft="288.571433485771,78.0000010939206" />
+        <NodeLayout
+          Size="198.4,41.6"
+          Id="Package\Load Sales Analysis Staging\Balanced Data Distributor"
+          TopLeft="282.142861947722,195.764708627879" />
+        <EdgeLayout
+          Id="Package\Load Sales Analysis Staging.Paths[Balanced Data Distributor Output 2]"
+          TopLeft="381.342861947722,237.364708627879">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="13.7142861521973,122.811767011695"
+              Start="0,0"
+              End="13.7142861521973,115.311767011695">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,57.4058835058476" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,57.4058835058476"
+                    Point2="0,61.4058835058476"
+                    Point3="4,61.4058835058476" />
+                  <mssgle:LineSegment
+                    End="9.7142861521973,61.4058835058476" />
+                  <mssgle:CubicBezierSegment
+                    Point1="9.7142861521973,61.4058835058476"
+                    Point2="13.7142861521973,61.4058835058476"
+                    Point3="13.7142861521973,65.4058835058476" />
+                  <mssgle:LineSegment
+                    End="13.7142861521973,115.311767011695" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-71.0289702051514,66.4058835058476,155.7722265625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sales Analysis Staging.Paths[Balanced Data Distributor Output 1]"
+          TopLeft="333.742861947722,237.364708627879">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-177.628575114328,122.811767011695"
+              Start="0,0"
+              End="-177.628575114328,115.311767011695">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.0231245212432" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,38.0231245212432"
+                    Point2="0,42.0231245212432"
+                    Point3="-4,42.0231245212432" />
+                  <mssgle:LineSegment
+                    End="-173.628575114328,42.0231245212432" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-173.628575114328,42.0231245212432"
+                    Point2="-177.628575114328,42.0231245212432"
+                    Point3="-177.628575114328,46.0231245212432" />
+                  <mssgle:LineSegment
+                    End="-177.628575114328,115.311767011695" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-166.514853963414,47.0231245212432,155.4011328125,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sales Analysis Staging.Paths[OLE DB Source Output]"
+          TopLeft="379.957147716746,119.600001093921">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,76.1647075339586"
+              Start="0,0"
+              End="0,68.6647075339586">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,68.6647075339586" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sales Analysis Staging.Paths[Balanced Data Distributor Output 3]"
+          TopLeft="428.942861947722,237.364708627879">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="216.742861862572,117.352941980824"
+              Start="0,0"
+              End="216.742861862572,109.852941980824">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.1552507043137" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,36.1552507043137"
+                    Point2="0,40.1552507043137"
+                    Point3="4,40.1552507043137" />
+                  <mssgle:LineSegment
+                    End="212.742861862572,40.1552507043137" />
+                  <mssgle:CubicBezierSegment
+                    Point1="212.742861862572,40.1552507043137"
+                    Point2="216.742861862572,40.1552507043137"
+                    Point3="216.742861862572,44.1552507043137" />
+                  <mssgle:LineSegment
+                    End="216.742861862572,109.852941980824" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="30.5487942125358,45.1552507043137,155.6452734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Sales Analysis Staging\Extract Sales Analysis">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Sales Analysis Staging\Load Sales Analysis">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

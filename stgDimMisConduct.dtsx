@@ -1,0 +1,1013 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/18/2022 11:56:30 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AYOTUNDE"
+  DTS:CreatorName="AYOTUNDE\ogunb"
+  DTS:DTSID="{276509AF-666B-4B39-8187-1FF5080D3FEC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.123"
+  DTS:LocaleID="4105"
+  DTS:ObjectName="stgDimMisConduct"
+  DTS:PackageType="5"
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{72AFDA70-A47E-4954-8624-E3344A5E933B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[HRMISCONDUCT]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{ADBC425D-D5BF-411A-BA5C-B3F91B0014F7}"
+      DTS:ObjectName="HRMISCONDUCT">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="4105"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\PBN\Class Materials\TESCA PROJECT\HR data files\hr_misconduct.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="misconductid"
+              DTS:DTSID="{4DE836E4-2CBD-410E-85FE-8A6952E8E887}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="miscoductdesc"
+              DTS:DTSID="{4B3DEA99-61C6-4A36-BD4D-C4DE8C5F6764}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DF1FEEA1-4293-4213-B0FB-0010D443AFCC}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="PackageID">
+      <DTS:VariableValue
+        DTS:DataType="3">8</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CCEE5611-89CD-437A-8BCC-23F1B2F57CAF}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StgDescCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FDE9D59A-AA1B-452A-A7AD-053FF4F90697}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StgSourceCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Desc Count"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{156E3C20-2DD0-4603-96B8-3008DE313521}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Desc Count"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}"
+          SQLTask:SqlStatementSource="select count(*) as StgDescCount from [HrMisconduct].misconduct"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="StgDescCount"
+            SQLTask:DtsVariableName="User::StgDescCount" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load HrMisconduct"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{6EBC9A08-7644-4975-9309-BE4E2CB051C0}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load HrMisconduct"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load HrMisconduct\Extract Misconduct"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="4105"
+              name="Extract Misconduct"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load HrMisconduct\Extract Misconduct.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[HRMISCONDUCT]"
+                  connectionManagerRefId="Package.ConnectionManagers[HRMISCONDUCT]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Output].Columns[misconductid]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Output].ExternalColumns[misconductid]"
+                      lineageId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Output].Columns[misconductid]"
+                      name="misconductid"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Output].Columns[miscoductdesc]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Output].ExternalColumns[miscoductdesc]"
+                      length="250"
+                      lineageId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Output].Columns[miscoductdesc]"
+                      name="miscoductdesc"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Output].ExternalColumns[misconductid]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="misconductid" />
+                    <externalMetadataColumn
+                      refId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Output].ExternalColumns[miscoductdesc]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="miscoductdesc" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load HrMisconduct\Load Date"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Load Date"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load HrMisconduct\Load Date.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load HrMisconduct\Load Date.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load HrMisconduct\Load Date.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load HrMisconduct\Load Date.Outputs[Derived Column Output].Columns[LoadDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load HrMisconduct\Load Date.Outputs[Derived Column Output].Columns[LoadDate]"
+                      name="LoadDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load HrMisconduct\Load Date.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load HrMisconduct\Load Date.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load HrMisconduct\Load Date.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load HrMisconduct\Load Date.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load HrMisconduct\Load Date.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load HrMisconduct\Load Date.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load HrMisconduct\Load Misconduct"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load Misconduct"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[HrMisconduct].[misconduct]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load HrMisconduct\Load Misconduct.Connections[OleDbConnection]"
+                  connectionManagerID="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Tesca Staging Database]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load HrMisconduct\Load Misconduct.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load HrMisconduct\Load Misconduct.Inputs[OLE DB Destination Input].Columns[misconductid]"
+                      cachedDataType="i4"
+                      cachedName="misconductid"
+                      externalMetadataColumnId="Package\Load HrMisconduct\Load Misconduct.Inputs[OLE DB Destination Input].ExternalColumns[Misconductid]"
+                      lineageId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Output].Columns[misconductid]" />
+                    <inputColumn
+                      refId="Package\Load HrMisconduct\Load Misconduct.Inputs[OLE DB Destination Input].Columns[LoadDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="LoadDate"
+                      externalMetadataColumnId="Package\Load HrMisconduct\Load Misconduct.Inputs[OLE DB Destination Input].ExternalColumns[Loaddate]"
+                      lineageId="Package\Load HrMisconduct\Load Date.Outputs[Derived Column Output].Columns[LoadDate]" />
+                    <inputColumn
+                      refId="Package\Load HrMisconduct\Load Misconduct.Inputs[OLE DB Destination Input].Columns[miscoductdesc]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="miscoductdesc"
+                      externalMetadataColumnId="Package\Load HrMisconduct\Load Misconduct.Inputs[OLE DB Destination Input].ExternalColumns[Misconductdiscription]"
+                      lineageId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Output].Columns[miscoductdesc]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load HrMisconduct\Load Misconduct.Inputs[OLE DB Destination Input].ExternalColumns[Misconductid]"
+                      dataType="i4"
+                      name="Misconductid" />
+                    <externalMetadataColumn
+                      refId="Package\Load HrMisconduct\Load Misconduct.Inputs[OLE DB Destination Input].ExternalColumns[Misconductdiscription]"
+                      dataType="wstr"
+                      length="250"
+                      name="Misconductdiscription" />
+                    <externalMetadataColumn
+                      refId="Package\Load HrMisconduct\Load Misconduct.Inputs[OLE DB Destination Input].ExternalColumns[Loaddate]"
+                      dataType="dbTimeStamp"
+                      name="Loaddate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load HrMisconduct\Load Misconduct.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load HrMisconduct\Load Misconduct.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load HrMisconduct\Load Misconduct.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load HrMisconduct\Load Misconduct.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load HrMisconduct\Load Misconduct.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load HrMisconduct\Load Misconduct.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load HrMisconduct.Paths[Derived Column Output]"
+              endId="Package\Load HrMisconduct\Load Misconduct.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load HrMisconduct\Load Date.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load HrMisconduct.Paths[Flat File Source Output]"
+              endId="Package\Load HrMisconduct\Load Date.Inputs[Derived Column Input]"
+              name="Flat File Source Output"
+              startId="Package\Load HrMisconduct\Extract Misconduct.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Metrics"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{7665E213-AC87-47CD-87BD-75C7BEA97955}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Metrics"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F33CED1F-4B97-43E4-863E-A1758E9AED50}"
+          SQLTask:SqlStatementSource=" Declare @StgSourceCount bigint=?&#xA;  Declare @StgDescCount bigint=?&#xA;  Declare @PackageID int=?&#xA;&#xA;  Insert into control.metrics&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;PackageID,stgSourceCount,stgDescCount,Rundate&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;  &#xA;  Select @PackageID, @StgSourceCount, @StgDescCount,   Getdate()&#xA;  Update Control.Package   set LastRundate=Getdate() &#xA;  Where   PackageId=@PackageID" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::StgSourceCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::StgDescCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::PackageID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Source Count"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{26c1f535-6929-4f67-b70b-3b291fe83a30}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Source Count"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Source Count\Extract Misconduct"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="4105"
+              name="Extract Misconduct"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Source Count\Extract Misconduct.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[HRMISCONDUCT]"
+                  connectionManagerRefId="Package.ConnectionManagers[HRMISCONDUCT]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Output].Columns[misconductid]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Output].ExternalColumns[misconductid]"
+                      lineageId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Output].Columns[misconductid]"
+                      name="misconductid"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Output].Columns[miscoductdesc]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Output].ExternalColumns[miscoductdesc]"
+                      length="50"
+                      lineageId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Output].Columns[miscoductdesc]"
+                      name="miscoductdesc"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Output].ExternalColumns[misconductid]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="misconductid" />
+                    <externalMetadataColumn
+                      refId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Output].ExternalColumns[miscoductdesc]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="miscoductdesc" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Source Count\Source Count"
+              componentClassID="Microsoft.RowCount"
+              contactInfo="Row Count;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Counts rows as they pass through a data flow. For example, use the number of rows processed to determine whether or not to perform cleanup operations, or update text in an e-mail message to communicate processing status."
+              name="Source Count">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable to hold the row count."
+                  name="VariableName">User::StgSourceCount</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Source Count\Source Count.Inputs[Row Count Input 1]"
+                  hasSideEffects="true"
+                  name="Row Count Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Source Count\Source Count.Outputs[Row Count Output 1]"
+                  name="Row Count Output 1"
+                  synchronousInputId="Package\Source Count\Source Count.Inputs[Row Count Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Source Count.Paths[Flat File Source Output]"
+              endId="Package\Source Count\Source Count.Inputs[Row Count Input 1]"
+              name="Flat File Source Output"
+              startId="Package\Source Count\Extract Misconduct.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Staging HRMisconduct"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{886443A7-515B-40F9-BD7F-4E978E1033EB}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Staging HRMisconduct"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}"
+          SQLTask:SqlStatementSource="Truncate Table  [HrMisconduct].misconduct" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{E40AC21D-0754-4025-BC03-9601844782EA}"
+      DTS:From="Package\Truncate Staging HRMisconduct"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Source Count" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{2BD8FA26-C9EB-45E5-9CD6-A5737A6B0826}"
+      DTS:From="Package\Source Count"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load HrMisconduct" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{8451F741-0F79-4456-A050-01EBFD6ECC23}"
+      DTS:From="Package\Load HrMisconduct"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Desc Count" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{E623F98A-8C91-4784-B26F-A8AA192D773E}"
+      DTS:From="Package\Desc Count"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Load Metrics" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="132,41.6"
+          Id="Package\Desc Count"
+          TopLeft="446.428579031205,236.294120960995" />
+        <NodeLayout
+          Size="168,41.6"
+          Id="Package\Load HrMisconduct"
+          TopLeft="387.142863735861,123.117648785502" />
+        <NodeLayout
+          Size="137.6,41.6"
+          Id="Package\Load Metrics"
+          TopLeft="492.142865524,358.647063853419" />
+        <NodeLayout
+          Size="141.6,41.6"
+          Id="Package\Source Count"
+          TopLeft="169.285717168633,119.294119320114" />
+        <NodeLayout
+          Size="228,41.6"
+          Id="Package\Truncate Staging HRMisconduct"
+          TopLeft="163.571431357034,22.9411767923296" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="277.571431357034,64.5411767923296">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-37.4857141884008,54.7529425277842"
+              Start="0,0"
+              End="-37.4857141884008,47.2529425277842">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.3764712638921" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.3764712638921"
+                    Point2="0,27.3764712638921"
+                    Point3="-4,27.3764712638921" />
+                  <mssgle:LineSegment
+                    End="-33.4857141884008,27.3764712638921" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-33.4857141884008,27.3764712638921"
+                    Point2="-37.4857141884008,27.3764712638921"
+                    Point3="-37.4857141884008,31.3764712638921" />
+                  <mssgle:LineSegment
+                    End="-37.4857141884008,47.2529425277842" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="310.885717168633,142.005884052808">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="76.2571465672279,0"
+              Start="0,0"
+              End="68.7571465672279,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="68.7571465672279,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="471.142863735861,164.717648785502">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="41.2857152953442,71.576472175493"
+              Start="0,0"
+              End="41.2857152953442,64.076472175493">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.7882360877465" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.7882360877465"
+                    Point2="0,35.7882360877465"
+                    Point3="4,35.7882360877465" />
+                  <mssgle:LineSegment
+                    End="37.2857152953442,35.7882360877465" />
+                  <mssgle:CubicBezierSegment
+                    Point1="37.2857152953442,35.7882360877465"
+                    Point2="41.2857152953442,35.7882360877465"
+                    Point3="41.2857152953442,39.7882360877465" />
+                  <mssgle:LineSegment
+                    End="41.2857152953442,64.076472175493" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="512.428579031205,277.894120960995">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="48.5142864927957,80.7529428924244"
+              Start="0,0"
+              End="48.5142864927957,73.2529428924244">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.3764714462122" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,36.3764714462122"
+                    Point2="0,40.3764714462122"
+                    Point3="4,40.3764714462122" />
+                  <mssgle:LineSegment
+                    End="44.5142864927957,40.3764714462122" />
+                  <mssgle:CubicBezierSegment
+                    Point1="44.5142864927957,40.3764714462122"
+                    Point2="48.5142864927957,40.3764714462122"
+                    Point3="48.5142864927957,44.3764714462122" />
+                  <mssgle:LineSegment
+                    End="48.5142864927957,73.2529428924244" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load HrMisconduct">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="154.4,41.6"
+          Id="Package\Load HrMisconduct\Load Date"
+          TopLeft="308.571433826369,164.411767011695" />
+        <NodeLayout
+          Size="167.2,41.6"
+          Id="Package\Load HrMisconduct\Extract Misconduct"
+          TopLeft="297.857147929619,52.764706622358" />
+        <NodeLayout
+          Size="156.8,41.6"
+          Id="Package\Load HrMisconduct\Load Misconduct"
+          TopLeft="315.714291090868,285.235298117964" />
+        <EdgeLayout
+          Id="Package\Load HrMisconduct.Paths[Flat File Source Output]"
+          TopLeft="383.614290877994,94.364706622358">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,70.0470603893373"
+              Start="0,0"
+              End="0,62.5470603893373">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,62.5470603893373" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load HrMisconduct.Paths[Derived Column Output]"
+          TopLeft="385.771433826369,206.011767011695">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="8.34285726449912,79.2235311062691"
+              Start="0,0"
+              End="8.34285726449912,71.7235311062691">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.6117655531346" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,35.6117655531346"
+                    Point2="0,39.6117655531346"
+                    Point3="4,39.6117655531346" />
+                  <mssgle:LineSegment
+                    End="4.34285726449912,39.6117655531346" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4.34285726449912,39.6117655531346"
+                    Point2="8.34285726449912,39.6117655531346"
+                    Point3="8.34285726449912,43.6117655531346" />
+                  <mssgle:LineSegment
+                    End="8.34285726449912,71.7235311062691" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load HrMisconduct\Load Misconduct">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Source Count">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="141.6,41.6"
+          Id="Package\Source Count\Source Count"
+          TopLeft="324.142862628917,174.588237728627" />
+        <NodeLayout
+          Size="167.2,41.6"
+          Id="Package\Source Count\Extract Misconduct"
+          TopLeft="304.85714792962,70.4705894900853" />
+        <EdgeLayout
+          Id="Package\Source Count.Paths[Flat File Source Output]"
+          TopLeft="391.700005279268,112.070589490085">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,62.5176482385417"
+              Start="0,0"
+              End="0,55.0176482385417">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,55.0176482385417" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

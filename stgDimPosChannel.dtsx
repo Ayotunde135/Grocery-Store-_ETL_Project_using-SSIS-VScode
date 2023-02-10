@@ -1,0 +1,762 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/18/2022 10:35:48 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AYOTUNDE"
+  DTS:CreatorName="AYOTUNDE\ogunb"
+  DTS:DTSID="{608C7188-DBEB-41C9-9154-5D4D68C1616C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.123"
+  DTS:LocaleID="4105"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="5"
+  DTS:VersionGUID="{B0EACE5D-59D4-49C3-8DBD-9C7C40A48BDF}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{200A0C92-B983-419F-BE41-79C24D188743}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="PackageID">
+      <DTS:VariableValue
+        DTS:DataType="3">5</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A4D0B877-949A-4AAB-AE47-B72BCE2FC5DF}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StgDescCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{855F264E-618C-4583-B5F4-101C86D5817D}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StgSourceCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Desc Count"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{EF80F98C-A867-40AB-9DEC-E844362B709B}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Desc Count"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}"
+          SQLTask:SqlStatementSource="select count(*) as StgDescCount from tescadb.poschannel"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="StgDescCount"
+            SQLTask:DtsVariableName="User::StgDescCount" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Metrics"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B0B1CA5A-E3F5-4451-8567-7A89658DFC21}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Metrics"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F33CED1F-4B97-43E4-863E-A1758E9AED50}"
+          SQLTask:SqlStatementSource=" Declare @StgSourceCount bigint=?&#xA;  Declare @StgDescCount bigint=?&#xA;  Declare @PackageID int=?&#xA;&#xA;  Insert into control.metrics&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;PackageID,stgSourceCount,stgDescCount,Rundate&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;  &#xA;  Select @PackageID, @StgSourceCount, @StgDescCount,   Getdate()&#xA;  Update Control.Package   set LastRundate=Getdate() &#xA;  Where   PackageId=@PackageID" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::StgSourceCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::StgDescCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::PackageID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Staging PosChannel"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{C924C680-6C3A-4C2B-893A-F4B7116A95F0}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Staging PosChannel"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Staging PosChannel\Extract OLTP PosChannel"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Extract OLTP PosChannel"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT P.ChannelID, P.ChannelNo, P.DeviceModel, P.InstallationDate, P.SerialNo, getdate () as loaddate FROM POSChannel P</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Connections[OleDbConnection]"
+                  connectionManagerID="{A2431D9F-BD20-4BB4-B07E-CDD53EBA6DA1}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Tesca OLTP Database]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[ChannelID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].ExternalColumns[ChannelID]"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[ChannelID]"
+                      name="ChannelID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[ChannelNo]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].ExternalColumns[ChannelNo]"
+                      length="50"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[ChannelNo]"
+                      name="ChannelNo"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[DeviceModel]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].ExternalColumns[DeviceModel]"
+                      length="50"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[DeviceModel]"
+                      name="DeviceModel"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[InstallationDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].ExternalColumns[InstallationDate]"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[InstallationDate]"
+                      name="InstallationDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[SerialNo]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].ExternalColumns[SerialNo]"
+                      length="50"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[SerialNo]"
+                      name="SerialNo"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[loaddate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].ExternalColumns[loaddate]"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[loaddate]"
+                      name="loaddate"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].ExternalColumns[ChannelID]"
+                      dataType="i4"
+                      name="ChannelID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].ExternalColumns[ChannelNo]"
+                      dataType="wstr"
+                      length="50"
+                      name="ChannelNo" />
+                    <externalMetadataColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].ExternalColumns[DeviceModel]"
+                      dataType="wstr"
+                      length="50"
+                      name="DeviceModel" />
+                    <externalMetadataColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].ExternalColumns[InstallationDate]"
+                      dataType="dbDate"
+                      name="InstallationDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].ExternalColumns[SerialNo]"
+                      dataType="wstr"
+                      length="50"
+                      name="SerialNo" />
+                    <externalMetadataColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].ExternalColumns[loaddate]"
+                      dataType="dbTimeStamp"
+                      name="loaddate" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[ChannelID]"
+                      dataType="i4"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[ChannelID]"
+                      name="ChannelID" />
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[ChannelNo]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[ChannelNo]"
+                      name="ChannelNo" />
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[DeviceModel]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[DeviceModel]"
+                      name="DeviceModel" />
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[InstallationDate]"
+                      dataType="dbDate"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[InstallationDate]"
+                      name="InstallationDate" />
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[SerialNo]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[SerialNo]"
+                      name="SerialNo" />
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[loaddate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[loaddate]"
+                      name="loaddate" />
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Staging PosChannel\Load PosChannel Staging"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load PosChannel Staging"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[tescadb].[POSCHANNEL]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Staging PosChannel\Load PosChannel Staging.Connections[OleDbConnection]"
+                  connectionManagerID="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Tesca Staging Database]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].Columns[ChannelID]"
+                      cachedDataType="i4"
+                      cachedName="ChannelID"
+                      externalMetadataColumnId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].ExternalColumns[ChannelID]"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[ChannelID]" />
+                    <inputColumn
+                      refId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].Columns[ChannelNo]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="ChannelNo"
+                      externalMetadataColumnId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].ExternalColumns[ChannelNo]"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[ChannelNo]" />
+                    <inputColumn
+                      refId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].Columns[DeviceModel]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="DeviceModel"
+                      externalMetadataColumnId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].ExternalColumns[DeviceModel]"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[DeviceModel]" />
+                    <inputColumn
+                      refId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].Columns[InstallationDate]"
+                      cachedDataType="dbDate"
+                      cachedName="InstallationDate"
+                      externalMetadataColumnId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].ExternalColumns[InstallationDate]"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[InstallationDate]" />
+                    <inputColumn
+                      refId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].Columns[SerialNo]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="SerialNo"
+                      externalMetadataColumnId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].ExternalColumns[SerialNo]"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[SerialNo]" />
+                    <inputColumn
+                      refId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].Columns[loaddate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="loaddate"
+                      externalMetadataColumnId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].ExternalColumns[Loaddate]"
+                      lineageId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output].Columns[loaddate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].ExternalColumns[ChannelID]"
+                      dataType="i4"
+                      name="ChannelID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].ExternalColumns[ChannelNo]"
+                      dataType="wstr"
+                      length="50"
+                      name="ChannelNo" />
+                    <externalMetadataColumn
+                      refId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].ExternalColumns[DeviceModel]"
+                      dataType="wstr"
+                      length="50"
+                      name="DeviceModel" />
+                    <externalMetadataColumn
+                      refId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].ExternalColumns[SerialNo]"
+                      dataType="wstr"
+                      length="50"
+                      name="SerialNo" />
+                    <externalMetadataColumn
+                      refId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].ExternalColumns[InstallationDate]"
+                      dataType="dbDate"
+                      name="InstallationDate" />
+                    <externalMetadataColumn
+                      refId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input].ExternalColumns[Loaddate]"
+                      dataType="dbTimeStamp"
+                      name="Loaddate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Staging PosChannel\Load PosChannel Staging.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Load PosChannel Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Staging PosChannel\Load PosChannel Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Staging PosChannel\Load PosChannel Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Staging PosChannel\Load PosChannel Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Staging PosChannel.Paths[OLE DB Source Output]"
+              endId="Package\Load Staging PosChannel\Load PosChannel Staging.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Staging PosChannel\Extract OLTP PosChannel.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Source Count"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1C7DD37C-E82A-42D4-8BA0-89A582590E3D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Source Count"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A2431D9F-BD20-4BB4-B07E-CDD53EBA6DA1}"
+          SQLTask:SqlStatementSource="Select  Count(*) as StgSourceCount  from POSChannel P"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="StgSourceCount"
+            SQLTask:DtsVariableName="User::StgSourceCount" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Staging POS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{DF9862EB-8642-48DA-827D-667FE12B9BBF}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Staging POS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}"
+          SQLTask:SqlStatementSource="Truncate table tescadb.poschannel" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{8FFD620E-340E-4694-8808-57E9E2F37A9A}"
+      DTS:From="Package\Truncate Staging POS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Source Count" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{8319AB8A-23CA-4344-B031-36FB3E30AB54}"
+      DTS:From="Package\Source Count"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load Staging PosChannel" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{02681DB6-9F3C-4989-B094-BF5CC0042D04}"
+      DTS:From="Package\Load Staging PosChannel"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Desc Count" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{E00B996D-84EA-46E4-92EF-F2103ACD7C92}"
+      DTS:From="Package\Desc Count"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Load Metrics" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="181.6,41.6"
+          Id="Package\Truncate Staging POS"
+          TopLeft="282.142861947722,29.8235298300285" />
+        <NodeLayout
+          Size="141.6,41.6"
+          Id="Package\Source Count"
+          TopLeft="303.571433741219,124.647060571657" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="373.657147844471,71.4235298300285">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53.223530741629"
+              Start="0,0"
+              End="0,45.723530741629">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.723530741629" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="197.6,41.6"
+          Id="Package\Load Staging PosChannel"
+          TopLeft="277.142861862572,234.000003281762" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="375.157147801896,166.247060571657">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,67.7529427101044"
+              Start="0,0"
+              End="0,60.2529427101044">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,60.2529427101044" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="190.4,41.6"
+          Id="Package\Desc Count"
+          TopLeft="280.000004768372,326.529416344158" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="375.571433315472,275.600003281762">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50.9294130623958"
+              Start="0,0"
+              End="0,43.4294130623958">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.4294130623958" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="188,41.6"
+          Id="Package\Load Metrics"
+          TopLeft="280.000004768372,428.235300123486" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="374.600004768372,368.129416344158">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60.1058837793278"
+              Start="0,0"
+              End="0,52.6058837793278">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.6058837793278" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Staging PosChannel">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="196.8,41.6"
+          Id="Package\Load Staging PosChannel\Extract OLTP PosChannel"
+          TopLeft="317.142862543768,55.8235301946686" />
+        <NodeLayout
+          Size="197.6,41.6"
+          Id="Package\Load Staging PosChannel\Load PosChannel Staging"
+          TopLeft="312.142862458618,193.470590948646" />
+        <EdgeLayout
+          Id="Package\Load Staging PosChannel.Paths[OLE DB Source Output]"
+          TopLeft="413.242862501193,97.4235301946686">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,96.0470607539775"
+              Start="0,0"
+              End="0,88.5470607539775">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,88.5470607539775" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Staging PosChannel\Extract OLTP PosChannel">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Staging PosChannel\Load PosChannel Staging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

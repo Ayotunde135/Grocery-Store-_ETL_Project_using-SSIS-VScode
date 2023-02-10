@@ -1,0 +1,3138 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/21/2022 5:00:18 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AYOTUNDE"
+  DTS:CreatorName="AYOTUNDE\ogunb"
+  DTS:DTSID="{65274B5D-736E-4C72-A5D2-C22F0F1F14FA}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.123"
+  DTS:LocaleID="4105"
+  DTS:ObjectName="stgFactAbsenceAnalysis"
+  DTS:PackageType="5"
+  DTS:VersionBuild="24"
+  DTS:VersionGUID="{EDD5D8CD-B7CB-43C3-A4BF-EA82774FBD16}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Absence]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{3263D740-E960-4E51-BA9C-74AE742774C8}"
+      DTS:ObjectName="Absence">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="4105"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\PBN\Class Materials\TESCA PROJECT\HR data files\absent_data.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="empid"
+              DTS:DTSID="{642ACB66-8AFF-4F82-AC2F-36EC50B0ECFD}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="store"
+              DTS:DTSID="{9097A362-DC55-4856-ADA1-95A0FF2A9386}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="absent_date"
+              DTS:DTSID="{DED970C4-E64D-4445-9620-40E7C0A33271}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="absent_hour"
+              DTS:DTSID="{2F9E9806-68B0-4C3D-8475-29BE1F475E71}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="absent_category"
+              DTS:DTSID="{09E15E10-CFA3-4CC9-AC98-33D2B3E598C0}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{20B33B63-9424-4DCF-BC3C-8DD8EC24EC5B}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="EdwCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{15FB81DA-D96D-49A4-A07F-9F5B0DE91E8B}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="PackageID">
+      <DTS:VariableValue
+        DTS:DataType="3">15</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6B6E68F4-8F90-4B12-8FC9-B813F0DE6BE1}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StgDescCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{83438F00-C2D1-4B88-88C0-5ABEDA91712B}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="StgSourceCount">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Desc Count"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{138054F6-37FB-4B93-A707-BED8DF28CA94}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Desc Count"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}"
+          SQLTask:SqlStatementSource="Select count(*) as StgDescCount from tescaDB.hr_absence_analysis"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="StgDescCount"
+            SQLTask:DtsVariableName="User::StgDescCount" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\EDW COUNT"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3417541D-B359-4ED7-BF96-ABA0AF7D1B0A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="EDW COUNT"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5D674196-33C8-4911-AEEB-36095FDB0C33}"
+          SQLTask:SqlStatementSource="Select count(*) as EdwCount from tesca.fact_hr_absence_analysis"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="EdwCount"
+            SQLTask:DtsVariableName="User::EdwCount" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Absence Staging"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{8d3f155f-d687-4753-86c4-1ca27029ac5c}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Absence Staging"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Absence Staging\Balanced Data Distributor"
+              componentClassID="Microsoft.BDD"
+              contactInfo="Balanced Data Distributor;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Evaluates and directs rows in a dataset to multiple destinations."
+              name="Balanced Data Distributor">
+              <inputs>
+                <input
+                  refId="Package\Load Absence Staging\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]"
+                  description="Input to the Balanced Data      Distributor Transformation"
+                  name="Balanced Data Distributor Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Absence Staging\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 1]"
+                  deleteOutputOnPathDetached="true"
+                  exclusionGroup="1"
+                  name="Balanced Data Distributor Output 1"
+                  synchronousInputId="Package\Load Absence Staging\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Absence Staging\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 2]"
+                  deleteOutputOnPathDetached="true"
+                  exclusionGroup="1"
+                  name="Balanced Data Distributor Output 2"
+                  synchronousInputId="Package\Load Absence Staging\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Absence Staging\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 3]"
+                  deleteOutputOnPathDetached="true"
+                  exclusionGroup="1"
+                  name="Balanced Data Distributor Output 3"
+                  synchronousInputId="Package\Load Absence Staging\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Absence Staging\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 4]"
+                  dangling="true"
+                  deleteOutputOnPathDetached="true"
+                  exclusionGroup="1"
+                  name="Balanced Data Distributor Output 4"
+                  synchronousInputId="Package\Load Absence Staging\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Absence Staging\Extract Absence Data"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="4105"
+              name="Extract Absence Data"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Absence Staging\Extract Absence Data.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Absence]"
+                  connectionManagerRefId="Package.ConnectionManagers[Absence]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[empid]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[empid]"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[empid]"
+                      name="empid"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[store]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[store]"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[store]"
+                      name="store"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[absent_date]"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]"
+                      name="absent_date"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_hour]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[absent_hour]"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_hour]"
+                      name="absent_hour"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_category]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[absent_category]"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_category]"
+                      name="absent_category"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[empid]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="empid" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[store]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="store" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[absent_date]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="absent_date" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[absent_hour]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="absent_hour" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[absent_category]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="absent_category" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Filter InceptionLoad from yesterday load"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load.Inputs[Conditional Split Input].Columns[absent_date]"
+                      cachedDataType="date"
+                      cachedName="absent_date"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load.Outputs[Data From inception]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Data From inception"
+                  synchronousInputId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]} &lt;= [DATEADD]("day",-1,[GETDATE]())</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">absent_date &lt;= DATEADD("day",-1,GETDATE())</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load.Outputs[Yesterday till  Future Data]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Yesterday till  Future Data"
+                  synchronousInputId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Absence Staging\From inception"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="From inception"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Absence Staging\From inception.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\From inception.Inputs[Conditional Split Input].Columns[absent_date]"
+                      cachedDataType="date"
+                      cachedName="absent_date"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Absence Staging\From inception.Outputs[Data from Inception]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Data from Inception"
+                  synchronousInputId="Package\Load Absence Staging\From inception.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]} &lt;= [DATEADD]("day",-1,[GETDATE]())</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">absent_date &lt;= DATEADD("day",-1,GETDATE())</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Absence Staging\From inception.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\Load Absence Staging\From inception.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Absence Staging\From inception.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Load Absence Staging\From inception.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\From inception.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\From inception.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Absence Staging\From inception.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\From inception.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Absence Staging\Load Absence Staging"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load Absence Staging"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[tescadb].[hr_absence_analysis]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Absence Staging\Load Absence Staging.Connections[OleDbConnection]"
+                  connectionManagerID="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Tesca Staging Database]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].Columns[empid]"
+                      cachedDataType="i4"
+                      cachedName="empid"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].ExternalColumns[empid]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[empid]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].Columns[store]"
+                      cachedDataType="i4"
+                      cachedName="store"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].ExternalColumns[store]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[store]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].Columns[absent_date]"
+                      cachedDataType="date"
+                      cachedName="absent_date"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].ExternalColumns[absent_date]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_date]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].Columns[absent_hour]"
+                      cachedDataType="i4"
+                      cachedName="absent_hour"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].ExternalColumns[absent_hour]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_hour]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].Columns[absent_category]"
+                      cachedDataType="i4"
+                      cachedName="absent_category"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].ExternalColumns[absent_category]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_category]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].Columns[Loaddate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Loaddate"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].ExternalColumns[Loadate]"
+                      lineageId="Package\Load Absence Staging\Load Date.Outputs[Derived Column Output].Columns[Loaddate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].ExternalColumns[empid]"
+                      dataType="i4"
+                      name="empid" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].ExternalColumns[store]"
+                      dataType="i4"
+                      name="store" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].ExternalColumns[absent_date]"
+                      dataType="dbDate"
+                      name="absent_date" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].ExternalColumns[absent_hour]"
+                      dataType="i4"
+                      name="absent_hour" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].ExternalColumns[absent_category]"
+                      dataType="i4"
+                      name="absent_category" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input].ExternalColumns[Loadate]"
+                      dataType="dbTimeStamp"
+                      name="Loadate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Absence Staging\Load Absence Staging.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Load Absence Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Load Absence Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Absence Staging\Load Absence Staging 1"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load Absence Staging 1"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[tescadb].[hr_absence_analysis]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Absence Staging\Load Absence Staging 1.Connections[OleDbConnection]"
+                  connectionManagerID="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Tesca Staging Database]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].Columns[empid]"
+                      cachedDataType="i4"
+                      cachedName="empid"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[empid]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[empid]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].Columns[store]"
+                      cachedDataType="i4"
+                      cachedName="store"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[store]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[store]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].Columns[absent_date]"
+                      cachedDataType="date"
+                      cachedName="absent_date"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[absent_date]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_date]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].Columns[absent_hour]"
+                      cachedDataType="i4"
+                      cachedName="absent_hour"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[absent_hour]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_hour]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].Columns[absent_category]"
+                      cachedDataType="i4"
+                      cachedName="absent_category"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[absent_category]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_category]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].Columns[Loaddate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Loaddate"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[Loadate]"
+                      lineageId="Package\Load Absence Staging\Load Date.Outputs[Derived Column Output].Columns[Loaddate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[empid]"
+                      dataType="i4"
+                      name="empid" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[store]"
+                      dataType="i4"
+                      name="store" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[absent_date]"
+                      dataType="dbDate"
+                      name="absent_date" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[absent_hour]"
+                      dataType="i4"
+                      name="absent_hour" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[absent_category]"
+                      dataType="i4"
+                      name="absent_category" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input].ExternalColumns[Loadate]"
+                      dataType="dbTimeStamp"
+                      name="Loadate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Absence Staging\Load Absence Staging 1.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Load Absence Staging 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Load Absence Staging 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Absence Staging\Load Absence Staging 2"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load Absence Staging 2"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[tescadb].[hr_absence_analysis]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Absence Staging\Load Absence Staging 2.Connections[OleDbConnection]"
+                  connectionManagerID="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Tesca Staging Database]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].Columns[empid]"
+                      cachedDataType="i4"
+                      cachedName="empid"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[empid]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[empid]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].Columns[store]"
+                      cachedDataType="i4"
+                      cachedName="store"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[store]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[store]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].Columns[absent_date]"
+                      cachedDataType="date"
+                      cachedName="absent_date"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[absent_date]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_date]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].Columns[absent_hour]"
+                      cachedDataType="i4"
+                      cachedName="absent_hour"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[absent_hour]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_hour]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].Columns[absent_category]"
+                      cachedDataType="i4"
+                      cachedName="absent_category"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[absent_category]"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_category]" />
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].Columns[Loaddate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Loaddate"
+                      externalMetadataColumnId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[Loadate]"
+                      lineageId="Package\Load Absence Staging\Load Date.Outputs[Derived Column Output].Columns[Loaddate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[empid]"
+                      dataType="i4"
+                      name="empid" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[store]"
+                      dataType="i4"
+                      name="store" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[absent_date]"
+                      dataType="dbDate"
+                      name="absent_date" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[absent_hour]"
+                      dataType="i4"
+                      name="absent_hour" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[absent_category]"
+                      dataType="i4"
+                      name="absent_category" />
+                    <externalMetadataColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input].ExternalColumns[Loadate]"
+                      dataType="dbTimeStamp"
+                      name="Loadate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Absence Staging\Load Absence Staging 2.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 2.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Load Absence Staging 2.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Load Absence Staging 2.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Load Absence Staging 2.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Absence Staging\Load Date"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Load Date"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Absence Staging\Load Date.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Absence Staging\Load Date.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Absence Staging\Load Date.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Load Date.Outputs[Derived Column Output].Columns[Loaddate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Absence Staging\Load Date.Outputs[Derived Column Output].Columns[Loaddate]"
+                      name="Loaddate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Absence Staging\Load Date.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Absence Staging\Load Date.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Load Date.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Load Date.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Load Date.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Load Date.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Absence Staging\Load Separator"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Load Separator"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Absence Staging\Load Separator.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Absence Staging\Load Separator.Outputs[Yesterday Data Only]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Yesterday Data Only"
+                  synchronousInputId="Package\Load Absence Staging\Load Separator.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">@[User::EdwCount] &gt; 0</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">@[User::EdwCount] &gt; 0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Absence Staging\Load Separator.Outputs[Data From inception]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Data From inception"
+                  synchronousInputId="Package\Load Absence Staging\Load Separator.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Absence Staging\Load Separator.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Load Absence Staging\Load Separator.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Load Separator.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Load Separator.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Load Separator.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Load Separator.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Absence Staging\Union All"
+              componentClassID="Microsoft.UnionAll"
+              contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+              name="Union All"
+              version="1">
+              <inputs>
+                <input
+                  refId="Package\Load Absence Staging\Union All.Inputs[Union All Input 1]"
+                  name="Union All Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Union All.Inputs[Union All Input 1].Columns[empid]"
+                      cachedDataType="i4"
+                      cachedName="empid"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[empid]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[empid]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Union All.Inputs[Union All Input 1].Columns[store]"
+                      cachedDataType="i4"
+                      cachedName="store"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[store]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[store]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Union All.Inputs[Union All Input 1].Columns[absent_date]"
+                      cachedDataType="date"
+                      cachedName="absent_date"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_date]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Union All.Inputs[Union All Input 1].Columns[absent_hour]"
+                      cachedDataType="i4"
+                      cachedName="absent_hour"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_hour]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_hour]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Union All.Inputs[Union All Input 1].Columns[absent_category]"
+                      cachedDataType="i4"
+                      cachedName="absent_category"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_category]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_category]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load Absence Staging\Union All.Inputs[Union All Input 2]"
+                  hasSideEffects="true"
+                  name="Union All Input 2">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Union All.Inputs[Union All Input 2].Columns[empid]"
+                      cachedDataType="i4"
+                      cachedName="empid"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[empid]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[empid]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Union All.Inputs[Union All Input 2].Columns[store]"
+                      cachedDataType="i4"
+                      cachedName="store"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[store]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[store]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Union All.Inputs[Union All Input 2].Columns[absent_date]"
+                      cachedDataType="date"
+                      cachedName="absent_date"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_date]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Union All.Inputs[Union All Input 2].Columns[absent_hour]"
+                      cachedDataType="i4"
+                      cachedName="absent_hour"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_hour]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_hour]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Union All.Inputs[Union All Input 2].Columns[absent_category]"
+                      cachedDataType="i4"
+                      cachedName="absent_category"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_category]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_category]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load Absence Staging\Union All.Inputs[Union All Input 3]"
+                  dangling="true"
+                  hasSideEffects="true"
+                  name="Union All Input 3">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1]"
+                  name="Union All Output 1">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[empid]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[empid]"
+                      name="empid" />
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[store]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[store]"
+                      name="store" />
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_date]"
+                      dataType="date"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_date]"
+                      name="absent_date" />
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_hour]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_hour]"
+                      name="absent_hour" />
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_category]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1].Columns[absent_category]"
+                      name="absent_category" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Absence Staging\Yesterday data only"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Yesterday data only"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Absence Staging\Yesterday data only.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Absence Staging\Yesterday data only.Inputs[Conditional Split Input].Columns[absent_date]"
+                      cachedDataType="date"
+                      cachedName="absent_date"
+                      lineageId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Absence Staging\Yesterday data only.Outputs[Yesterday Data only]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Yesterday Data only"
+                  synchronousInputId="Package\Load Absence Staging\Yesterday data only.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]} == (DT_DATE)(DT_DBDATE)[DATEADD]("DAY",-1,[GETDATE]())</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">absent_date == (DT_DATE)(DT_DBDATE)DATEADD("DAY",-1,GETDATE())</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Absence Staging\Yesterday data only.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\Load Absence Staging\Yesterday data only.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Absence Staging\Yesterday data only.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Load Absence Staging\Yesterday data only.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Yesterday data only.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Yesterday data only.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Absence Staging\Yesterday data only.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Absence Staging\Yesterday data only.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Absence Staging.Paths[Balanced Data Distributor Output 1]"
+              endId="Package\Load Absence Staging\Load Absence Staging.Inputs[OLE DB Destination Input]"
+              name="Balanced Data Distributor Output 1"
+              startId="Package\Load Absence Staging\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 1]" />
+            <path
+              refId="Package\Load Absence Staging.Paths[Balanced Data Distributor Output 2]"
+              endId="Package\Load Absence Staging\Load Absence Staging 2.Inputs[OLE DB Destination Input]"
+              name="Balanced Data Distributor Output 2"
+              startId="Package\Load Absence Staging\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 2]" />
+            <path
+              refId="Package\Load Absence Staging.Paths[Balanced Data Distributor Output 3]"
+              endId="Package\Load Absence Staging\Load Absence Staging 1.Inputs[OLE DB Destination Input]"
+              name="Balanced Data Distributor Output 3"
+              startId="Package\Load Absence Staging\Balanced Data Distributor.Outputs[Balanced Data Distributor Output 3]" />
+            <path
+              refId="Package\Load Absence Staging.Paths[Data From inception]"
+              endId="Package\Load Absence Staging\Load Separator.Inputs[Conditional Split Input]"
+              name="Data From inception"
+              startId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load.Outputs[Data From inception]" />
+            <path
+              refId="Package\Load Absence Staging.Paths[Data From inception1]"
+              endId="Package\Load Absence Staging\From inception.Inputs[Conditional Split Input]"
+              name="Data From inception"
+              startId="Package\Load Absence Staging\Load Separator.Outputs[Data From inception]" />
+            <path
+              refId="Package\Load Absence Staging.Paths[Data from Inception]"
+              endId="Package\Load Absence Staging\Union All.Inputs[Union All Input 1]"
+              name="Data from Inception"
+              startId="Package\Load Absence Staging\From inception.Outputs[Data from Inception]" />
+            <path
+              refId="Package\Load Absence Staging.Paths[Derived Column Output]"
+              endId="Package\Load Absence Staging\Balanced Data Distributor.Inputs[Balanced Data Distributor Input]"
+              name="Derived Column Output"
+              startId="Package\Load Absence Staging\Load Date.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Absence Staging.Paths[Flat File Source Output]"
+              endId="Package\Load Absence Staging\Filter InceptionLoad from yesterday load.Inputs[Conditional Split Input]"
+              name="Flat File Source Output"
+              startId="Package\Load Absence Staging\Extract Absence Data.Outputs[Flat File Source Output]" />
+            <path
+              refId="Package\Load Absence Staging.Paths[Union All Output 1]"
+              endId="Package\Load Absence Staging\Load Date.Inputs[Derived Column Input]"
+              name="Union All Output 1"
+              startId="Package\Load Absence Staging\Union All.Outputs[Union All Output 1]" />
+            <path
+              refId="Package\Load Absence Staging.Paths[Yesterday Data only]"
+              endId="Package\Load Absence Staging\Union All.Inputs[Union All Input 2]"
+              name="Yesterday Data only"
+              startId="Package\Load Absence Staging\Yesterday data only.Outputs[Yesterday Data only]" />
+            <path
+              refId="Package\Load Absence Staging.Paths[Yesterday till  Future Data]"
+              endId="Package\Load Absence Staging\Yesterday data only.Inputs[Conditional Split Input]"
+              name="Yesterday till  Future Data"
+              startId="Package\Load Absence Staging\Load Separator.Outputs[Yesterday Data Only]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Metrics"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B7E31E13-17DD-485B-9258-C38E99834164}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Metrics"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F33CED1F-4B97-43E4-863E-A1758E9AED50}"
+          SQLTask:SqlStatementSource=" Declare @StgSourceCount bigint=?&#xA;  Declare @StgDescCount bigint=?&#xA;  Declare @PackageID int=?&#xA;&#xA;  Insert into control.metrics&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;PackageID,stgSourceCount,stgDescCount,Rundate&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;  &#xA;  Select @PackageID, @StgSourceCount, @StgDescCount,   Getdate()&#xA;  Update Control.Package   set LastRundate=Getdate() &#xA;  Where   PackageId=@PackageID" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::StgSourceCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::StgDescCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::PackageID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SOURCE COUNT"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{B55BF913-79E8-430A-BA57-1DAA12C29BE4}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SOURCE COUNT"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\SOURCE COUNT\Data From Inception Load"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Data From Inception Load"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\SOURCE COUNT\Data From Inception Load.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\SOURCE COUNT\Data From Inception Load.Inputs[Conditional Split Input].Columns[absent_date]"
+                      cachedDataType="date"
+                      cachedName="absent_date"
+                      lineageId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SOURCE COUNT\Data From Inception Load.Outputs[Data From Inception]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Data From Inception"
+                  synchronousInputId="Package\SOURCE COUNT\Data From Inception Load.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]} &lt;= [DATEADD]("day",-1,[GETDATE]())</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">absent_date &lt;= DATEADD("day",-1,GETDATE())</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\SOURCE COUNT\Data From Inception Load.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\SOURCE COUNT\Data From Inception Load.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\SOURCE COUNT\Data From Inception Load.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\SOURCE COUNT\Data From Inception Load.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Data From Inception Load.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\SOURCE COUNT\Data From Inception Load.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Data From Inception Load.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\SOURCE COUNT\Data From Inception Load.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SOURCE COUNT\Extract Absence Data"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="4105"
+              name="Extract Absence Data"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\SOURCE COUNT\Extract Absence Data.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Absence]"
+                  connectionManagerRefId="Package.ConnectionManagers[Absence]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[empid]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[empid]"
+                      lineageId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[empid]"
+                      name="empid"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[store]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[store]"
+                      lineageId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[store]"
+                      name="store"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[absent_date]"
+                      lineageId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]"
+                      name="absent_date"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_hour]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[absent_hour]"
+                      lineageId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_hour]"
+                      name="absent_hour"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_category]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[absent_category]"
+                      lineageId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_category]"
+                      name="absent_category"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[empid]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="empid" />
+                    <externalMetadataColumn
+                      refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[store]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="store" />
+                    <externalMetadataColumn
+                      refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[absent_date]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="absent_date" />
+                    <externalMetadataColumn
+                      refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[absent_hour]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="absent_hour" />
+                    <externalMetadataColumn
+                      refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].ExternalColumns[absent_category]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="absent_category" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Filter InceptionLoad from yesterday load"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load.Inputs[Conditional Split Input].Columns[absent_date]"
+                      cachedDataType="date"
+                      cachedName="absent_date"
+                      lineageId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load.Outputs[Data From inception]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Data From inception"
+                  synchronousInputId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]} &lt;= [DATEADD]("day",-1,[GETDATE]())</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">absent_date &lt;= DATEADD("day",-1,GETDATE())</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load.Outputs[Yesterday till  Future Data]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Yesterday till  Future Data"
+                  synchronousInputId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SOURCE COUNT\Load Separator"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Load Separator"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\SOURCE COUNT\Load Separator.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SOURCE COUNT\Load Separator.Outputs[Yesterday Data]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Yesterday Data"
+                  synchronousInputId="Package\SOURCE COUNT\Load Separator.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">@[User::EdwCount] &gt; 0</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">@[User::EdwCount] &gt; 0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\SOURCE COUNT\Load Separator.Outputs[Data From inception]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Data From inception"
+                  synchronousInputId="Package\SOURCE COUNT\Load Separator.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\SOURCE COUNT\Load Separator.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\SOURCE COUNT\Load Separator.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Load Separator.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\SOURCE COUNT\Load Separator.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Load Separator.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\SOURCE COUNT\Load Separator.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SOURCE COUNT\Source Count"
+              componentClassID="Microsoft.RowCount"
+              contactInfo="Row Count;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Counts rows as they pass through a data flow. For example, use the number of rows processed to determine whether or not to perform cleanup operations, or update text in an e-mail message to communicate processing status."
+              name="Source Count">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable to hold the row count."
+                  name="VariableName">User::StgSourceCount</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\SOURCE COUNT\Source Count.Inputs[Row Count Input 1]"
+                  hasSideEffects="true"
+                  name="Row Count Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SOURCE COUNT\Source Count.Outputs[Row Count Output 1]"
+                  name="Row Count Output 1"
+                  synchronousInputId="Package\SOURCE COUNT\Source Count.Inputs[Row Count Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SOURCE COUNT\SourceCount"
+              componentClassID="Microsoft.RowCount"
+              contactInfo="Row Count;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Counts rows as they pass through a data flow. For example, use the number of rows processed to determine whether or not to perform cleanup operations, or update text in an e-mail message to communicate processing status."
+              name="SourceCount">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable to hold the row count."
+                  name="VariableName">User::StgSourceCount</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\SOURCE COUNT\SourceCount.Inputs[Row Count Input 1]"
+                  hasSideEffects="true"
+                  name="Row Count Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SOURCE COUNT\SourceCount.Outputs[Row Count Output 1]"
+                  name="Row Count Output 1"
+                  synchronousInputId="Package\SOURCE COUNT\SourceCount.Inputs[Row Count Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\SOURCE COUNT\Yesterday Data Load Only"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Yesterday Data Load Only"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\SOURCE COUNT\Yesterday Data Load Only.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\SOURCE COUNT\Yesterday Data Load Only.Inputs[Conditional Split Input].Columns[absent_date]"
+                      cachedDataType="date"
+                      cachedName="absent_date"
+                      lineageId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\SOURCE COUNT\Yesterday Data Load Only.Outputs[Yesterday Data Only]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Yesterday Data Only"
+                  synchronousInputId="Package\SOURCE COUNT\Yesterday Data Load Only.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output].Columns[absent_date]} == (DT_DATE)(DT_DBDATE)[DATEADD]("DAY",-1,[GETDATE]())</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">absent_date == (DT_DATE)(DT_DBDATE)DATEADD("DAY",-1,GETDATE())</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\SOURCE COUNT\Yesterday Data Load Only.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\SOURCE COUNT\Yesterday Data Load Only.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\SOURCE COUNT\Yesterday Data Load Only.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\SOURCE COUNT\Yesterday Data Load Only.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Yesterday Data Load Only.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\SOURCE COUNT\Yesterday Data Load Only.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\SOURCE COUNT\Yesterday Data Load Only.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\SOURCE COUNT\Yesterday Data Load Only.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\SOURCE COUNT.Paths[Data From inception]"
+              endId="Package\SOURCE COUNT\Load Separator.Inputs[Conditional Split Input]"
+              name="Data From inception"
+              startId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load.Outputs[Data From inception]" />
+            <path
+              refId="Package\SOURCE COUNT.Paths[Data From inception1]"
+              endId="Package\SOURCE COUNT\Data From Inception Load.Inputs[Conditional Split Input]"
+              name="Data From inception"
+              startId="Package\SOURCE COUNT\Load Separator.Outputs[Data From inception]" />
+            <path
+              refId="Package\SOURCE COUNT.Paths[Data From Inception]"
+              endId="Package\SOURCE COUNT\SourceCount.Inputs[Row Count Input 1]"
+              name="Data From Inception"
+              startId="Package\SOURCE COUNT\Data From Inception Load.Outputs[Data From Inception]" />
+            <path
+              refId="Package\SOURCE COUNT.Paths[Flat File Source Output]"
+              endId="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load.Inputs[Conditional Split Input]"
+              name="Flat File Source Output"
+              startId="Package\SOURCE COUNT\Extract Absence Data.Outputs[Flat File Source Output]" />
+            <path
+              refId="Package\SOURCE COUNT.Paths[Yesterday Data Only]"
+              endId="Package\SOURCE COUNT\Source Count.Inputs[Row Count Input 1]"
+              name="Yesterday Data Only"
+              startId="Package\SOURCE COUNT\Yesterday Data Load Only.Outputs[Yesterday Data Only]" />
+            <path
+              refId="Package\SOURCE COUNT.Paths[Yesterday till  Future Data]"
+              endId="Package\SOURCE COUNT\Yesterday Data Load Only.Inputs[Conditional Split Input]"
+              name="Yesterday till  Future Data"
+              startId="Package\SOURCE COUNT\Load Separator.Outputs[Yesterday Data]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Staging Absence"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A30DA1D3-ED07-49DD-AD05-22DF05D15FD2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Staging Absence"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{59494FD4-FAF5-44C8-BDD8-820BF8FFBD3B}"
+          SQLTask:SqlStatementSource="Truncate table  tescaDB.hr_absence_analysis" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{2C4DC058-5853-452C-9475-B8A30ACD6D6C}"
+      DTS:From="Package\Truncate Staging Absence"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\EDW COUNT" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{ED63CF93-4A06-4680-9E60-AF97E53FD04E}"
+      DTS:From="Package\EDW COUNT"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\SOURCE COUNT" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{A8AB94DD-ED77-423F-A6EC-0DDAB8D8439D}"
+      DTS:From="Package\SOURCE COUNT"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Load Absence Staging" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{F990FE84-6226-4FE1-A50A-E615502EB57E}"
+      DTS:From="Package\Load Absence Staging"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Desc Count" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{762C8DD3-A7F1-4500-B7E3-19899D7A669B}"
+      DTS:From="Package\Desc Count"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Load Metrics" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="188,41.6"
+          Id="Package\Desc Count"
+          TopLeft="280.714290494822,338.7647106334" />
+        <NodeLayout
+          Size="185.6,41.6"
+          Id="Package\EDW COUNT"
+          TopLeft="269.285718871623,118.529413427036" />
+        <NodeLayout
+          Size="182.4,41.6"
+          Id="Package\Load Absence Staging"
+          TopLeft="282.142861947722,270.705886149489" />
+        <NodeLayout
+          Size="195.2,41.6"
+          Id="Package\Load Metrics"
+          TopLeft="273.571433230322,420.588241192709" />
+        <NodeLayout
+          Size="176,49.6"
+          Id="Package\SOURCE COUNT"
+          TopLeft="277.142861862572,186.588237910947" />
+        <NodeLayout
+          Size="200.8,41.6"
+          Id="Package\Truncate Staging Absence"
+          TopLeft="267.142861692273,30.5882357231061" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="364.814290281948,72.1882357231061">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.3411777039301"
+              Start="0,0"
+              End="0,38.8411777039301">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.8411777039301" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="363.614290367097,160.129413427036">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.458824483911"
+              Start="0,0"
+              End="0,18.958824483911">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.958824483911" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="365.142861862572,236.188237910947">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="8.2000000851495,34.5176482385418"
+              Start="0,0"
+              End="8.2000000851495,27.0176482385418">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.2588241192709" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.2588241192709"
+                    Point2="0,17.2588241192709"
+                    Point3="4,17.2588241192709" />
+                  <mssgle:LineSegment
+                    End="4.2000000851495,17.2588241192709" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4.2000000851495,17.2588241192709"
+                    Point2="8.2000000851495,17.2588241192709"
+                    Point3="8.2000000851495,21.2588241192709" />
+                  <mssgle:LineSegment
+                    End="8.2000000851495,27.0176482385418" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="374.028576221272,312.305886149489">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.4588244839109"
+              Start="0,0"
+              End="0,18.9588244839109">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.9588244839109" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="372.942861862572,380.3647106334">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.2235305593089"
+              Start="0,0"
+              End="0,32.7235305593089">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.7235305593089" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Absence Staging">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="148.8,41.6"
+          Id="Package\Load Absence Staging\From inception"
+          TopLeft="484.285712144813,312.470589490085" />
+        <NodeLayout
+          Size="165.6,41.6"
+          Id="Package\Load Absence Staging\Load Date"
+          TopLeft="314.999995146479,484.411765917775" />
+        <NodeLayout
+          Size="171.2,41.6"
+          Id="Package\Load Absence Staging\Yesterday data only"
+          TopLeft="130.999997104917,304.529411786155" />
+        <NodeLayout
+          Size="182.4,41.6"
+          Id="Package\Load Absence Staging\Load Absence Staging"
+          TopLeft="133.428570601405,681.411765917775" />
+        <NodeLayout
+          Size="179.2,41.6"
+          Id="Package\Load Absence Staging\Extract Absence Data"
+          TopLeft="294.28571929737,9.1764707169318" />
+        <NodeLayout
+          Size="164.8,44.8"
+          Id="Package\Load Absence Staging\Union All"
+          TopLeft="320.285709079431,411.705883779328" />
+        <NodeLayout
+          Size="182.4,41.6"
+          Id="Package\Load Absence Staging\Load Absence Staging 1"
+          TopLeft="575.71428070263,683.705883779328" />
+        <NodeLayout
+          Size="150.4,41.6"
+          Id="Package\Load Absence Staging\Load Separator"
+          TopLeft="316.428576817318,188.117649697102" />
+        <NodeLayout
+          Size="268.8,41.6"
+          Id="Package\Load Absence Staging\Filter InceptionLoad from yesterday load"
+          TopLeft="254.285718616174,102.470589672405" />
+        <NodeLayout
+          Size="198.4,41.6"
+          Id="Package\Load Absence Staging\Balanced Data Distributor"
+          TopLeft="293.57142343813,563.705883414688" />
+        <NodeLayout
+          Size="182.4,41.6"
+          Id="Package\Load Absence Staging\Load Absence Staging 2"
+          TopLeft="344.428571878647,688.364706986998" />
+        <EdgeLayout
+          Id="Package\Load Absence Staging.Paths[Yesterday till  Future Data]"
+          TopLeft="367.895243483985,229.717649697102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-151.295246379067,74.8117620890529"
+              Start="0,0"
+              End="-151.295246379067,67.3117620890529">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.397200175131" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.397200175131"
+                    Point2="0,30.397200175131"
+                    Point3="-4,30.397200175131" />
+                  <mssgle:LineSegment
+                    End="-147.295246379067,30.397200175131" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-147.295246379067,30.397200175131"
+                    Point2="-151.295246379067,30.397200175131"
+                    Point3="-151.295246379067,34.397200175131" />
+                  <mssgle:LineSegment
+                    End="-151.295246379067,67.3117620890529" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-121.785064595784,35.397200175131,92.2748828125,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Absence Staging.Paths[Yesterday Data only]"
+          TopLeft="216.599997104917,346.129411786155">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="159.95237864118,65.5764719931723"
+              Start="0,0"
+              End="159.95237864118,58.0764719931723">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.9675573959428" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34.9675573959428"
+                    Point2="0,38.9675573959428"
+                    Point3="4,38.9675573959428" />
+                  <mssgle:LineSegment
+                    End="155.95237864118,38.9675573959428" />
+                  <mssgle:CubicBezierSegment
+                    Point1="155.95237864118,38.9675573959428"
+                    Point2="159.95237864118,38.9675573959428"
+                    Point3="159.95237864118,42.9675573959428" />
+                  <mssgle:LineSegment
+                    End="159.95237864118,58.0764719931723" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="34.6637479143401,43.9675573959428,90.6248828125,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Absence Staging.Paths[Union All Output 1]"
+          TopLeft="400.242852112955,456.505883779328">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.905882138447"
+              Start="0,0"
+              End="0,20.405882138447">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.405882138447" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Absence Staging.Paths[Flat File Source Output]"
+          TopLeft="386.285718956772,50.7764707169318">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,51.6941189554736"
+              Start="0,0"
+              End="0,44.1941189554736">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.1941189554736" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Absence Staging.Paths[Derived Column Output]"
+          TopLeft="395.285709292305,526.011765917775">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.6941174969129"
+              Start="0,0"
+              End="0,30.1941174969129">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.1941174969129" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Absence Staging.Paths[Data from Inception]"
+          TopLeft="558.685712144813,354.070589490085">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-129.866669732049,57.6352942892423"
+              Start="0,0"
+              End="-129.866669732049,50.1352942892423">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.2486652603382" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,30.2486652603382"
+                    Point2="0,34.2486652603382"
+                    Point3="-4,34.2486652603382" />
+                  <mssgle:LineSegment
+                    End="-125.866669732049,34.2486652603382" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-125.866669732049,34.2486652603382"
+                    Point2="-129.866669732049,34.2486652603382"
+                    Point3="-129.866669732049,38.2486652603382" />
+                  <mssgle:LineSegment
+                    End="-129.866669732049,50.1352942892423" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-109.670268459774,39.2486652603382,89.4738671875,11.658203125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Absence Staging.Paths[Data From inception1]"
+          TopLeft="415.361910150651,229.717649697102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="143.323801994161,82.7529397929829"
+              Start="0,0"
+              End="143.323801994161,75.2529397929829">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.6238260632541" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29.6238260632541"
+                    Point2="0,33.6238260632541"
+                    Point3="4,33.6238260632541" />
+                  <mssgle:LineSegment
+                    End="139.323801994161,33.6238260632541" />
+                  <mssgle:CubicBezierSegment
+                    Point1="139.323801994161,33.6238260632541"
+                    Point2="143.323801994161,33.6238260632541"
+                    Point3="143.323801994161,37.6238260632541" />
+                  <mssgle:LineSegment
+                    End="143.323801994161,75.2529397929829" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="26.6299674033307,38.6238260632541,90.0638671875,11.3310546875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Absence Staging.Paths[Data From inception]"
+          TopLeft="390.157147716746,144.070589672405">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.0470600246971"
+              Start="0,0"
+              End="0,36.5470600246971">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5470600246971" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-45.03193359375,12.6080026685985,90.0638671875,11.3310546875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Absence Staging.Paths[Balanced Data Distributor Output 3]"
+          TopLeft="440.37142343813,605.305883414688">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="226.5428572645,78.4000003646403"
+              Start="0,0"
+              End="226.5428572645,70.9000003646403">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.8265253237098" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.8265253237098"
+                    Point2="0,26.8265253237098"
+                    Point3="4,26.8265253237098" />
+                  <mssgle:LineSegment
+                    End="222.5428572645,26.8265253237098" />
+                  <mssgle:CubicBezierSegment
+                    Point1="222.5428572645,26.8265253237098"
+                    Point2="226.5428572645,26.8265253237098"
+                    Point3="226.5428572645,30.8265253237098" />
+                  <mssgle:LineSegment
+                    End="226.5428572645,70.9000003646403" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="35.4487919134998,31.8265253237098,155.6452734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Absence Staging.Paths[Balanced Data Distributor Output 2]"
+          TopLeft="392.77142343813,605.305883414688">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="42.8571484405169,83.0588235723105"
+              Start="0,0"
+              End="42.8571484405169,75.5588235723105">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.5294117861553" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,37.5294117861553"
+                    Point2="0,41.5294117861553"
+                    Point3="4,41.5294117861553" />
+                  <mssgle:LineSegment
+                    End="38.8571484405169,41.5294117861553" />
+                  <mssgle:CubicBezierSegment
+                    Point1="38.8571484405169,41.5294117861553"
+                    Point2="42.8571484405169,41.5294117861553"
+                    Point3="42.8571484405169,45.5294117861553" />
+                  <mssgle:LineSegment
+                    End="42.8571484405169,75.5588235723105" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-56.4575390609916,46.5294117861553,155.7722265625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Absence Staging.Paths[Balanced Data Distributor Output 1]"
+          TopLeft="345.17142343813,605.305883414688">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-120.542852836725,76.1058825030873"
+              Start="0,0"
+              End="-120.542852836725,68.6058825030873">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.0415353923031" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.0415353923031"
+                    Point2="0,26.0415353923031"
+                    Point3="-4,26.0415353923031" />
+                  <mssgle:LineSegment
+                    End="-116.542852836725,26.0415353923031" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-116.542852836725,26.0415353923031"
+                    Point2="-120.542852836725,26.0415353923031"
+                    Point3="-120.542852836725,30.0415353923031" />
+                  <mssgle:LineSegment
+                    End="-120.542852836725,68.6058825030873" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-137.971992824613,31.0415353923031,155.4011328125,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Absence Staging\Load Absence Staging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\SOURCE COUNT">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="141.6,41.6"
+          Id="Package\SOURCE COUNT\Source Count"
+          TopLeft="174.285717253782,414.470594048088" />
+        <NodeLayout
+          Size="179.2,41.6"
+          Id="Package\SOURCE COUNT\Extract Absence Data"
+          TopLeft="297.14286220317,26.7647062577178" />
+        <NodeLayout
+          Size="268.8,41.6"
+          Id="Package\SOURCE COUNT\Filter InceptionLoad from yesterday load"
+          TopLeft="256.428575795524,123.117648785502" />
+        <NodeLayout
+          Size="200.8,41.6"
+          Id="Package\SOURCE COUNT\Yesterday Data Load Only"
+          TopLeft="170.714288621533,323.235298482605" />
+        <NodeLayout
+          Size="150.4,41.6"
+          Id="Package\SOURCE COUNT\Load Separator"
+          TopLeft="317.142862543768,213.352944168665" />
+        <NodeLayout
+          Size="201.6,41.6"
+          Id="Package\SOURCE COUNT\Data From Inception Load"
+          TopLeft="465.714293645353,300.423532200189" />
+        <NodeLayout
+          Size="138.4,41.6"
+          Id="Package\SOURCE COUNT\SourceCount"
+          TopLeft="485.000008259501,399.176476186534" />
+        <EdgeLayout
+          Id="Package\SOURCE COUNT.Paths[Yesterday till  Future Data]"
+          TopLeft="368.609529210435,254.952944168665">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-97.4952405889019,68.2823543139396"
+              Start="0,0"
+              End="-97.4952405889019,60.7823543139396">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.7441987001902" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.7441987001902"
+                    Point2="0,27.7441987001902"
+                    Point3="-4,27.7441987001902" />
+                  <mssgle:LineSegment
+                    End="-93.4952405889019,27.7441987001902" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-93.4952405889019,27.7441987001902"
+                    Point2="-97.4952405889019,27.7441987001902"
+                    Point3="-97.4952405889019,31.7441987001902" />
+                  <mssgle:LineSegment
+                    End="-97.4952405889019,60.7823543139396" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-83.0564874819509,32.7441987001902,68.617734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SOURCE COUNT.Paths[Yesterday Data Only]"
+          TopLeft="271.114288621533,364.835298482605">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-26.0285713677504,49.6352955654835"
+              Start="0,0"
+              End="-26.0285713677504,42.1352955654835">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.8176477827417" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.8176477827417"
+                    Point2="0,24.8176477827417"
+                    Point3="-4,24.8176477827417" />
+                  <mssgle:LineSegment
+                    End="-22.0285713677504,24.8176477827417" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-22.0285713677504,24.8176477827417"
+                    Point2="-26.0285713677504,24.8176477827417"
+                    Point3="-26.0285713677504,28.8176477827417" />
+                  <mssgle:LineSegment
+                    End="-26.0285713677504,42.1352955654835" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-59.1517270901252,29.8176477827417,92.2748828125,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SOURCE COUNT.Paths[Flat File Source Output]"
+          TopLeft="388.785718999347,68.3647062577178">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,54.7529425277843"
+              Start="0,0"
+              End="0,47.2529425277843">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.2529425277843" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SOURCE COUNT.Paths[Data From Inception]"
+          TopLeft="566.514293645353,342.023532200189">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-12.3142853858512,57.1529439863449"
+              Start="0,0"
+              End="-12.3142853858512,49.6529439863449">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5764719931724" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,24.5764719931724"
+                    Point2="0,28.5764719931724"
+                    Point3="-4,28.5764719931724" />
+                  <mssgle:LineSegment
+                    End="-8.31428538585124,28.5764719931724" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-8.31428538585124,28.5764719931724"
+                    Point2="-12.3142853858512,28.5764719931724"
+                    Point3="-12.3142853858512,32.5764719931724" />
+                  <mssgle:LineSegment
+                    End="-12.3142853858512,49.6529439863449" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-51.9090762866756,33.5764719931724,91.5038671875,11.3310546875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SOURCE COUNT.Paths[Data From inception1]"
+          TopLeft="392.342862543768,254.952944168665">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="174.171431101585,45.4705880315244"
+              Start="0,0"
+              End="174.171431101585,37.9705880315244">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.7352940157622" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.7352940157622"
+                    Point2="0,22.7352940157622"
+                    Point3="4,22.7352940157622" />
+                  <mssgle:LineSegment
+                    End="170.171431101585,22.7352940157622" />
+                  <mssgle:CubicBezierSegment
+                    Point1="170.171431101585,22.7352940157622"
+                    Point2="174.171431101585,22.7352940157622"
+                    Point3="174.171431101585,26.7352940157622" />
+                  <mssgle:LineSegment
+                    End="174.171431101585,37.9705880315244" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="42.0537819570425,27.7352940157622,90.0638671875,11.3310546875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SOURCE COUNT.Paths[Data From inception]"
+          TopLeft="391.585719169646,164.717648785502">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48.635295383163"
+              Start="0,0"
+              End="0,41.135295383163">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.135295383163" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-45.03193359375,14.9021203478315,90.0638671875,11.3310546875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

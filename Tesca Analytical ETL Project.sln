@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32630.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "TESCA STAGING ETL PROJECT", "TESCA STAGING ETL PROJECT.dtproj", "{C1D16324-753C-4011-9D34-CF9DBD732D78}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "TESCA EDW PROJECT", "..\TESCA EDW PROJECT\TESCA EDW PROJECT.dtproj", "{F3C9D1DC-015F-4280-BF11-337534B87338}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Multidimensional", "Multidimensional", "{6A1C82E9-593F-4C5F-940F-1CD65B03E3ED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tabular Model Analysis", "Tabular Model Analysis", "{F0C58963-89E2-4B44-B0F1-01B34B61E7D6}"
+EndProject
+Project("{D2ABAB84-BF74-430A-B69E-9DC6D40DDA17}") = "Purchase Transaction", "..\Purchase Transaction\Purchase Transaction.dwproj", "{246F0EAD-8BAD-41F3-9CF2-ED4266B3DE6E}"
+EndProject
+Project("{D2ABAB84-BF74-430A-B69E-9DC6D40DDA17}") = "Misconduct Analysis", "..\Misconduct Analysis\Misconduct Analysis.dwproj", "{C334578E-4441-4D5D-8A30-8870EA6A0BC4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|x86 = Development|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1D16324-753C-4011-9D34-CF9DBD732D78}.Development|x86.ActiveCfg = Development
+		{C1D16324-753C-4011-9D34-CF9DBD732D78}.Development|x86.Build.0 = Development
+		{F3C9D1DC-015F-4280-BF11-337534B87338}.Development|x86.ActiveCfg = Development
+		{F3C9D1DC-015F-4280-BF11-337534B87338}.Development|x86.Build.0 = Development
+		{246F0EAD-8BAD-41F3-9CF2-ED4266B3DE6E}.Development|x86.ActiveCfg = Development
+		{246F0EAD-8BAD-41F3-9CF2-ED4266B3DE6E}.Development|x86.Build.0 = Development
+		{246F0EAD-8BAD-41F3-9CF2-ED4266B3DE6E}.Development|x86.Deploy.0 = Development
+		{C334578E-4441-4D5D-8A30-8870EA6A0BC4}.Development|x86.ActiveCfg = Development
+		{C334578E-4441-4D5D-8A30-8870EA6A0BC4}.Development|x86.Build.0 = Development
+		{C334578E-4441-4D5D-8A30-8870EA6A0BC4}.Development|x86.Deploy.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0CC73467-6B63-40FF-A19C-DFEA593ADC5C}
+	EndGlobalSection
+EndGlobal
