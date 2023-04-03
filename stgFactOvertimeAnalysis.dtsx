@@ -11,8 +11,8 @@
   DTS:LocaleID="4105"
   DTS:ObjectName="stgFactOvertimeAnalysis"
   DTS:PackageType="5"
-  DTS:VersionBuild="123"
-  DTS:VersionGUID="{7FBD921B-02B2-42AE-BFE6-84BC2897714F}">
+  DTS:VersionBuild="128"
+  DTS:VersionGUID="{042875E4-2A7A-481F-AA54-75E5064DF163}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -154,6 +154,80 @@
               DTS:TextQualified="True"
               DTS:ObjectName="EndOvertime"
               DTS:DTSID="{35386CCA-284E-45F7-B36B-D760650218EB}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LoadOvertime]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{3FDCEDCB-3EB5-4F25-B38B-306553AE6528}"
+      DTS:ObjectName="LoadOvertime">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="4105"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\PBN\Class Materials\TESCA PROJECT\HR overtime Excel\OvertimeData.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="OvertimeID"
+              DTS:DTSID="{E79CA351-8587-4AAF-A813-FCA84D8EF316}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="EmployeeNo"
+              DTS:DTSID="{645499BB-39DD-4744-B14C-132EC6EEA59C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="FirstName"
+              DTS:DTSID="{670D4B8C-C2B0-476D-97CB-7A7DCE6D5EAA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="LastName"
+              DTS:DTSID="{515BC95F-26D7-4148-BC5E-BF5BC6D462F6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="StartOvertime"
+              DTS:DTSID="{68C5F9F3-5CA5-43D3-B55C-D87702BD6A0B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="EndOvertime"
+              DTS:DTSID="{AD02C0A1-C764-44C9-A177-68494B6CCA7C}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -634,8 +708,8 @@
               <connections>
                 <connection
                   refId="Package\Overtime Extraction\Flat File Source.Connections[FlatFileConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Load Overtime 2]"
-                  connectionManagerRefId="Package.ConnectionManagers[Load Overtime 2]"
+                  connectionManagerID="Package.ConnectionManagers[LoadOvertime]"
+                  connectionManagerRefId="Package.ConnectionManagers[LoadOvertime]"
                   name="FlatFileConnection" />
               </connections>
               <outputs>
@@ -771,32 +845,39 @@
                     isUsed="True">
                     <externalMetadataColumn
                       refId="Package\Overtime Extraction\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[OvertimeID]"
-                      dataType="i2"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
                       name="OvertimeID" />
                     <externalMetadataColumn
                       refId="Package\Overtime Extraction\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[EmployeeNo]"
-                      dataType="wstr"
-                      length="9"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
                       name="EmployeeNo" />
                     <externalMetadataColumn
                       refId="Package\Overtime Extraction\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[FirstName]"
                       codePage="1252"
                       dataType="str"
-                      length="10"
+                      length="50"
                       name="FirstName" />
                     <externalMetadataColumn
                       refId="Package\Overtime Extraction\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[LastName]"
                       codePage="1252"
                       dataType="str"
-                      length="12"
+                      length="50"
                       name="LastName" />
                     <externalMetadataColumn
                       refId="Package\Overtime Extraction\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[StartOvertime]"
-                      dataType="date"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
                       name="StartOvertime" />
                     <externalMetadataColumn
                       refId="Package\Overtime Extraction\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[EndOvertime]"
-                      dataType="date"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
                       name="EndOvertime" />
                   </externalMetadataColumns>
                 </output>
@@ -2122,8 +2203,8 @@
               <connections>
                 <connection
                   refId="Package\Source Count\Flat File Source.Connections[FlatFileConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Load Overtime]"
-                  connectionManagerRefId="Package.ConnectionManagers[Load Overtime]"
+                  connectionManagerID="Package.ConnectionManagers[LoadOvertime]"
+                  connectionManagerRefId="Package.ConnectionManagers[LoadOvertime]"
                   name="FlatFileConnection" />
               </connections>
               <outputs>
@@ -2288,11 +2369,15 @@
                       name="LastName" />
                     <externalMetadataColumn
                       refId="Package\Source Count\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[StartOvertime]"
-                      dataType="date"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
                       name="StartOvertime" />
                     <externalMetadataColumn
                       refId="Package\Source Count\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[EndOvertime]"
-                      dataType="date"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
                       name="EndOvertime" />
                   </externalMetadataColumns>
                 </output>
@@ -2735,37 +2820,189 @@
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="170.4,41.6"
-          Id="Package\Overtime Extraction\OLE DB Destination"
-          TopLeft="77.8571441830422,703.550986859158" />
+          Size="268.8,41.6"
+          Id="Package\Overtime Extraction\Filter InceptionLoad from yesterday load"
+          TopLeft="187.214289302729,85.852942892424" />
         <NodeLayout
-          Size="169.6,41.6"
-          Id="Package\Overtime Extraction\Load  Overtime Stg 2"
-          TopLeft="305.406594610851,713.618853984892" />
+          Size="120,41.6"
+          Id="Package\Overtime Extraction\Union All"
+          TopLeft="260,369.166666666667" />
         <NodeLayout
           Size="200.8,41.6"
           Id="Package\Overtime Extraction\Yesterday Data Load Only"
           TopLeft="100.000001958438,267.30392592286" />
         <NodeLayout
-          Size="268.8,41.6"
-          Id="Package\Overtime Extraction\Filter InceptionLoad from yesterday load"
-          TopLeft="187.214289302729,85.852942892424" />
-        <NodeLayout
           Size="126.4,41.6"
           Id="Package\Overtime Extraction\Load Date"
           TopLeft="286.527469243134,445.027903554877" />
+        <NodeLayout
+          Size="170.4,41.6"
+          Id="Package\Overtime Extraction\OLE DB Destination"
+          TopLeft="77.8571441830422,703.550986859158" />
+        <NodeLayout
+          Size="150.4,41.6"
+          Id="Package\Overtime Extraction\Flat File Source"
+          TopLeft="236.666666666667,12.5" />
+        <NodeLayout
+          Size="154.4,41.6"
+          Id="Package\Overtime Extraction\Conditional Split"
+          TopLeft="253.333333333334,161.666666666667" />
+        <NodeLayout
+          Size="169.6,41.6"
+          Id="Package\Overtime Extraction\Load  Overtime Stg 2"
+          TopLeft="305.406594610851,713.618853984892" />
         <NodeLayout
           Size="169.6,41.6"
           Id="Package\Overtime Extraction\Load  Overtime Stg 1"
           TopLeft="534.362633859344,715.448718313358" />
         <NodeLayout
-          Size="201.6,41.6"
-          Id="Package\Overtime Extraction\Data From Inception Load"
-          TopLeft="333.857145886032,268.362749677491" />
-        <NodeLayout
           Size="198.4,41.6"
           Id="Package\Overtime Extraction\Balanced Data Distributor"
           TopLeft="204.670325230392,523.434238417956" />
+        <NodeLayout
+          Size="201.6,41.6"
+          Id="Package\Overtime Extraction\Data From Inception Load"
+          TopLeft="333.857145886032,268.362749677491" />
+        <EdgeLayout
+          Id="Package\Overtime Extraction.Paths[Yesterday Data Only]"
+          TopLeft="200.400001958438,308.90392592286">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="119.599998041562,60.2627407438064"
+              Start="0,0"
+              End="119.599998041562,52.7627407438064">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.1313703719032" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.1313703719032"
+                    Point2="0,30.1313703719032"
+                    Point3="4,30.1313703719032" />
+                  <mssgle:LineSegment
+                    End="115.599998041562,30.1313703719032" />
+                  <mssgle:CubicBezierSegment
+                    Point1="115.599998041562,30.1313703719032"
+                    Point2="119.599998041562,30.1313703719032"
+                    Point3="119.599998041562,34.1313703719032" />
+                  <mssgle:LineSegment
+                    End="119.599998041562,52.7627407438064" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="13.662557614531,35.1313703719032,92.2748828125,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Overtime Extraction.Paths[Yesterday]"
+          TopLeft="330.533333333334,203.266666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-130.133331374896,64.0372592561936"
+              Start="0,0"
+              End="-130.133331374896,56.5372592561936">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.0186296280968" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,28.0186296280968"
+                    Point2="0,32.0186296280968"
+                    Point3="-4,32.0186296280968" />
+                  <mssgle:LineSegment
+                    End="-126.133331374896,32.0186296280968" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-126.133331374896,32.0186296280968"
+                    Point2="-130.133331374896,32.0186296280968"
+                    Point3="-130.133331374896,36.0186296280968" />
+                  <mssgle:LineSegment
+                    End="-130.133331374896,56.5372592561936" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-87.7991070936978,37.0186296280968,45.4648828125,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Overtime Extraction.Paths[Union All Output 1]"
+          TopLeft="320,410.766666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="29.727469243134,34.2612368882106"
+              Start="0,0"
+              End="29.727469243134,26.7612368882106">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.1306184441053" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.1306184441053"
+                    Point2="0,17.1306184441053"
+                    Point3="4,17.1306184441053" />
+                  <mssgle:LineSegment
+                    End="25.727469243134,17.1306184441053" />
+                  <mssgle:CubicBezierSegment
+                    Point1="25.727469243134,17.1306184441053"
+                    Point2="29.727469243134,17.1306184441053"
+                    Point3="29.727469243134,21.1306184441053" />
+                  <mssgle:LineSegment
+                    End="29.727469243134,26.7612368882106" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Overtime Extraction.Paths[Flat File Source Output]"
+          TopLeft="311.866666666667,54.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="9.74762263606243,31.752942892424"
+              Start="0,0"
+              End="9.74762263606243,24.252942892424">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.876471446212" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,11.876471446212"
+                    Point2="0,15.876471446212"
+                    Point3="4,15.876471446212" />
+                  <mssgle:LineSegment
+                    End="5.74762263606243,15.876471446212" />
+                  <mssgle:CubicBezierSegment
+                    Point1="5.74762263606243,15.876471446212"
+                    Point2="9.74762263606243,15.876471446212"
+                    Point3="9.74762263606243,19.876471446212" />
+                  <mssgle:LineSegment
+                    End="9.74762263606243,24.252942892424" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\Overtime Extraction.Paths[Derived Column Output]"
           TopLeft="349.727469243134,486.627903554877">
@@ -2798,6 +3035,150 @@
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Overtime Extraction.Paths[Data from inception]"
+          TopLeft="354.933333333334,203.266666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="79.7238125526985,65.0960830108246"
+              Start="0,0"
+              End="79.7238125526985,57.5960830108246">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.4390244843965" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.4390244843965"
+                    Point2="0,26.4390244843965"
+                    Point3="4,26.4390244843965" />
+                  <mssgle:LineSegment
+                    End="75.7238125526985,26.4390244843965" />
+                  <mssgle:CubicBezierSegment
+                    Point1="75.7238125526985,26.4390244843965"
+                    Point2="79.7238125526985,26.4390244843965"
+                    Point3="79.7238125526985,30.4390244843965" />
+                  <mssgle:LineSegment
+                    End="79.7238125526985,57.5960830108246" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-4.15502731740075,31.4390244843965,88.0338671875,11.658203125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Overtime Extraction.Paths[Data From Inception]"
+          TopLeft="434.657145886032,309.962749677491">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-95.9904792193654,59.2039169891754"
+              Start="0,0"
+              End="-95.9904792193654,51.7039169891754">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.0549508488538" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.0549508488538"
+                    Point2="0,35.0549508488538"
+                    Point3="-4,35.0549508488538" />
+                  <mssgle:LineSegment
+                    End="-91.9904792193654,35.0549508488538" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-91.9904792193654,35.0549508488538"
+                    Point2="-95.9904792193654,35.0549508488538"
+                    Point3="-95.9904792193654,39.0549508488538" />
+                  <mssgle:LineSegment
+                    End="-95.9904792193654,51.7039169891754" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-93.7471732034327,40.0549508488538,91.5038671875,11.3310546875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Overtime Extraction.Paths[Data From inception]"
+          TopLeft="321.614289302729,127.452942892424">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="8.91904403060443,34.2137237742427"
+              Start="0,0"
+              End="8.91904403060443,26.7137237742427">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.1068618871213" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.1068618871213"
+                    Point2="0,17.1068618871213"
+                    Point3="4,17.1068618871213" />
+                  <mssgle:LineSegment
+                    End="4.91904403060443,17.1068618871213" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4.91904403060443,17.1068618871213"
+                    Point2="8.91904403060443,17.1068618871213"
+                    Point3="8.91904403060443,21.1068618871213" />
+                  <mssgle:LineSegment
+                    End="8.91904403060443,26.7137237742427" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-40.5724115784478,22.1068618871213,90.0638671875,11.3310546875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Overtime Extraction.Paths[Balanced Data Distributor Output 3]"
+          TopLeft="256.270325230392,565.034238417956">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-93.2131810473498,138.516748441202"
+              Start="0,0"
+              End="-93.2131810473498,131.016748441202">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.3969775833291" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,43.3969775833291"
+                    Point2="0,47.3969775833291"
+                    Point3="-4,47.3969775833291" />
+                  <mssgle:LineSegment
+                    End="-89.2131810473498,47.3969775833291" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-89.2131810473498,47.3969775833291"
+                    Point2="-93.2131810473498,47.3969775833291"
+                    Point3="-93.2131810473498,51.3969775833291" />
+                  <mssgle:LineSegment
+                    End="-93.2131810473498,131.016748441202" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-124.429227242425,52.3969775833291,155.6452734375,11.609375"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -2872,302 +3253,6 @@
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="150.4,41.6"
-          Id="Package\Overtime Extraction\Flat File Source"
-          TopLeft="236.666666666667,12.5" />
-        <NodeLayout
-          Size="154.4,41.6"
-          Id="Package\Overtime Extraction\Conditional Split"
-          TopLeft="253.333333333334,161.666666666667" />
-        <EdgeLayout
-          Id="Package\Overtime Extraction.Paths[Flat File Source Output]"
-          TopLeft="311.866666666667,54.1">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="9.74762263606243,31.752942892424"
-              Start="0,0"
-              End="9.74762263606243,24.252942892424">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,11.876471446212" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,11.876471446212"
-                    Point2="0,15.876471446212"
-                    Point3="4,15.876471446212" />
-                  <mssgle:LineSegment
-                    End="5.74762263606243,15.876471446212" />
-                  <mssgle:CubicBezierSegment
-                    Point1="5.74762263606243,15.876471446212"
-                    Point2="9.74762263606243,15.876471446212"
-                    Point3="9.74762263606243,19.876471446212" />
-                  <mssgle:LineSegment
-                    End="9.74762263606243,24.252942892424" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="120,41.6"
-          Id="Package\Overtime Extraction\Union All"
-          TopLeft="260,369.166666666667" />
-        <EdgeLayout
-          Id="Package\Overtime Extraction.Paths[Union All Output 1]"
-          TopLeft="320,410.766666666667">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="29.727469243134,34.2612368882106"
-              Start="0,0"
-              End="29.727469243134,26.7612368882106">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,13.1306184441053" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,13.1306184441053"
-                    Point2="0,17.1306184441053"
-                    Point3="4,17.1306184441053" />
-                  <mssgle:LineSegment
-                    End="25.727469243134,17.1306184441053" />
-                  <mssgle:CubicBezierSegment
-                    Point1="25.727469243134,17.1306184441053"
-                    Point2="29.727469243134,17.1306184441053"
-                    Point3="29.727469243134,21.1306184441053" />
-                  <mssgle:LineSegment
-                    End="29.727469243134,26.7612368882106" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Overtime Extraction.Paths[Data From inception]"
-          TopLeft="321.614289302729,127.452942892424">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="8.91904403060443,34.2137237742427"
-              Start="0,0"
-              End="8.91904403060443,26.7137237742427">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,13.1068618871213" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,13.1068618871213"
-                    Point2="0,17.1068618871213"
-                    Point3="4,17.1068618871213" />
-                  <mssgle:LineSegment
-                    End="4.91904403060443,17.1068618871213" />
-                  <mssgle:CubicBezierSegment
-                    Point1="4.91904403060443,17.1068618871213"
-                    Point2="8.91904403060443,17.1068618871213"
-                    Point3="8.91904403060443,21.1068618871213" />
-                  <mssgle:LineSegment
-                    End="8.91904403060443,26.7137237742427" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-40.5724115784478,22.1068618871213,90.0638671875,11.3310546875"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Overtime Extraction.Paths[Yesterday Data Only]"
-          TopLeft="200.400001958438,308.90392592286">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="119.599998041562,60.2627407438064"
-              Start="0,0"
-              End="119.599998041562,52.7627407438064">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26.1313703719032" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,26.1313703719032"
-                    Point2="0,30.1313703719032"
-                    Point3="4,30.1313703719032" />
-                  <mssgle:LineSegment
-                    End="115.599998041562,30.1313703719032" />
-                  <mssgle:CubicBezierSegment
-                    Point1="115.599998041562,30.1313703719032"
-                    Point2="119.599998041562,30.1313703719032"
-                    Point3="119.599998041562,34.1313703719032" />
-                  <mssgle:LineSegment
-                    End="119.599998041562,52.7627407438064" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="13.662557614531,35.1313703719032,92.2748828125,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Overtime Extraction.Paths[Data From Inception]"
-          TopLeft="434.657145886032,309.962749677491">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-95.9904792193654,59.2039169891754"
-              Start="0,0"
-              End="-95.9904792193654,51.7039169891754">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,31.0549508488538" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,31.0549508488538"
-                    Point2="0,35.0549508488538"
-                    Point3="-4,35.0549508488538" />
-                  <mssgle:LineSegment
-                    End="-91.9904792193654,35.0549508488538" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-91.9904792193654,35.0549508488538"
-                    Point2="-95.9904792193654,35.0549508488538"
-                    Point3="-95.9904792193654,39.0549508488538" />
-                  <mssgle:LineSegment
-                    End="-95.9904792193654,51.7039169891754" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-93.7471732034327,40.0549508488538,91.5038671875,11.3310546875"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Overtime Extraction.Paths[Balanced Data Distributor Output 3]"
-          TopLeft="256.270325230392,565.034238417956">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-93.2131810473498,138.516748441202"
-              Start="0,0"
-              End="-93.2131810473498,131.016748441202">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,43.3969775833291" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,43.3969775833291"
-                    Point2="0,47.3969775833291"
-                    Point3="-4,47.3969775833291" />
-                  <mssgle:LineSegment
-                    End="-89.2131810473498,47.3969775833291" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-89.2131810473498,47.3969775833291"
-                    Point2="-93.2131810473498,47.3969775833291"
-                    Point3="-93.2131810473498,51.3969775833291" />
-                  <mssgle:LineSegment
-                    End="-93.2131810473498,131.016748441202" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-124.429227242425,52.3969775833291,155.6452734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Overtime Extraction.Paths[Yesterday]"
-          TopLeft="330.533333333334,203.266666666667">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-130.133331374896,64.0372592561936"
-              Start="0,0"
-              End="-130.133331374896,56.5372592561936">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,28.0186296280968" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,28.0186296280968"
-                    Point2="0,32.0186296280968"
-                    Point3="-4,32.0186296280968" />
-                  <mssgle:LineSegment
-                    End="-126.133331374896,32.0186296280968" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-126.133331374896,32.0186296280968"
-                    Point2="-130.133331374896,32.0186296280968"
-                    Point3="-130.133331374896,36.0186296280968" />
-                  <mssgle:LineSegment
-                    End="-130.133331374896,56.5372592561936" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-87.7991070936978,37.0186296280968,45.4648828125,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Overtime Extraction.Paths[Data from inception]"
-          TopLeft="354.933333333334,203.266666666667">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="79.7238125526985,65.0960830108246"
-              Start="0,0"
-              End="79.7238125526985,57.5960830108246">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,22.4390244843965" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,22.4390244843965"
-                    Point2="0,26.4390244843965"
-                    Point3="4,26.4390244843965" />
-                  <mssgle:LineSegment
-                    End="75.7238125526985,26.4390244843965" />
-                  <mssgle:CubicBezierSegment
-                    Point1="75.7238125526985,26.4390244843965"
-                    Point2="79.7238125526985,26.4390244843965"
-                    Point3="79.7238125526985,30.4390244843965" />
-                  <mssgle:LineSegment
-                    End="79.7238125526985,57.5960830108246" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-4.15502731740075,31.4390244843965,88.0338671875,11.658203125"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
@@ -3190,6 +3275,14 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
+          Size="201.6,41.6"
+          Id="Package\Source Count\Data From Inception Load"
+          TopLeft="432.180956139695,417.009808061307" />
+        <NodeLayout
+          Size="302.4,62.4"
+          Id="Package\Source Count\Conditional Split"
+          TopLeft="229,267" />
+        <NodeLayout
           Size="200.8,41.6"
           Id="Package\Source Count\Yesterday Data Load Only"
           TopLeft="64.7142841086091,440.411768652576" />
@@ -3202,21 +3295,49 @@
           Id="Package\Source Count\Source Count 2"
           TopLeft="441.880947795043,567.500000911601" />
         <NodeLayout
-          Size="151.2,41.6"
+          Size="150.4,41.6"
           Id="Package\Source Count\Flat File Source"
           TopLeft="263,41" />
         <NodeLayout
           Size="190.4,46.4"
           Id="Package\Source Count\Source Count"
           TopLeft="44.9285659181827,564.254900931212" />
-        <NodeLayout
-          Size="302.4,62.4"
-          Id="Package\Source Count\Conditional Split"
-          TopLeft="229,267" />
-        <NodeLayout
-          Size="201.6,41.6"
-          Id="Package\Source Count\Data From Inception Load"
-          TopLeft="432.180956139695,417.009808061307" />
+        <EdgeLayout
+          Id="Package\Source Count.Paths[Yesterday Only]"
+          TopLeft="380.2,329.4">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-215.085715891391,111.011768652576"
+              Start="0,0"
+              End="-215.085715891391,103.511768652576">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51.505884326288" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,51.505884326288"
+                    Point2="0,55.505884326288"
+                    Point3="-4,55.505884326288" />
+                  <mssgle:LineSegment
+                    End="-211.085715891391,55.505884326288" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-211.085715891391,55.505884326288"
+                    Point2="-215.085715891391,55.505884326288"
+                    Point3="-215.085715891391,59.505884326288" />
+                  <mssgle:LineSegment
+                    End="-215.085715891391,103.511768652576" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-141.805299351946,60.505884326288,68.5248828125,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\Source Count.Paths[Yesterday Data Only]"
           TopLeft="165.114284108609,482.011768652576">
@@ -3254,31 +3375,67 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Source Count.Paths[Flat File Source Output]"
-          TopLeft="338.6,82.6">
+          Id="Package\Source Count.Paths[From Inception]"
+          TopLeft="429.266666666667,329.4">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="17.6000007663459,71.5274532004073"
+              EndConnector="103.714289473028,87.609808061307"
               Start="0,0"
-              End="17.6000007663459,64.0274532004073">
+              End="103.714289473028,80.109808061307">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.7637266002037" />
+                    End="0,31.3205857762954" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,31.7637266002037"
-                    Point2="0,35.7637266002037"
-                    Point3="4,35.7637266002037" />
+                    Point1="0,31.3205857762954"
+                    Point2="0,35.3205857762954"
+                    Point3="4,35.3205857762954" />
                   <mssgle:LineSegment
-                    End="13.6000007663459,35.7637266002037" />
+                    End="99.7142894730283,35.3205857762954" />
                   <mssgle:CubicBezierSegment
-                    Point1="13.6000007663459,35.7637266002037"
-                    Point2="17.6000007663459,35.7637266002037"
-                    Point3="17.6000007663459,39.7637266002037" />
+                    Point1="99.7142894730283,35.3205857762954"
+                    Point2="103.714289473028,35.3205857762954"
+                    Point3="103.714289473028,39.3205857762954" />
                   <mssgle:LineSegment
-                    End="17.6000007663459,64.0274532004073" />
+                    End="103.714289473028,80.109808061307" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="17.9802111427642,40.3205857762954,67.7538671875,11.3310546875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Source Count.Paths[Flat File Source Output]"
+          TopLeft="338.2,82.6">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="18.000000766346,71.527453200407"
+              Start="0,0"
+              End="18.000000766346,64.027453200407">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.7637266002035" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.7637266002035"
+                    Point2="0,35.7637266002035"
+                    Point3="4,35.7637266002035" />
+                  <mssgle:LineSegment
+                    End="14.000000766346,35.7637266002035" />
+                  <mssgle:CubicBezierSegment
+                    Point1="14.000000766346,35.7637266002035"
+                    Point2="18.000000766346,35.7637266002035"
+                    Point3="18.000000766346,39.7637266002035" />
+                  <mssgle:LineSegment
+                    End="18.000000766346,64.027453200407" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3356,78 +3513,6 @@
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
               BoundingBox="-41.701937766076,59.445096425147,91.5038671875,11.3310546875"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Source Count.Paths[Yesterday Only]"
-          TopLeft="380.2,329.4">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-215.085715891391,111.011768652576"
-              Start="0,0"
-              End="-215.085715891391,103.511768652576">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,51.505884326288" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,51.505884326288"
-                    Point2="0,55.505884326288"
-                    Point3="-4,55.505884326288" />
-                  <mssgle:LineSegment
-                    End="-211.085715891391,55.505884326288" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-211.085715891391,55.505884326288"
-                    Point2="-215.085715891391,55.505884326288"
-                    Point3="-215.085715891391,59.505884326288" />
-                  <mssgle:LineSegment
-                    End="-215.085715891391,103.511768652576" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-141.805299351945,60.505884326288,68.5248828125,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Source Count.Paths[From Inception]"
-          TopLeft="429.266666666667,329.4">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="103.714289473028,87.609808061307"
-              Start="0,0"
-              End="103.714289473028,80.109808061307">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,31.3205857762954" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,31.3205857762954"
-                    Point2="0,35.3205857762954"
-                    Point3="4,35.3205857762954" />
-                  <mssgle:LineSegment
-                    End="99.7142894730283,35.3205857762954" />
-                  <mssgle:CubicBezierSegment
-                    Point1="99.7142894730283,35.3205857762954"
-                    Point2="103.714289473028,35.3205857762954"
-                    Point3="103.714289473028,39.3205857762954" />
-                  <mssgle:LineSegment
-                    End="103.714289473028,80.109808061307" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="17.9802111427642,40.3205857762954,67.7538671875,11.3310546875"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>

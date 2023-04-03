@@ -11,8 +11,8 @@
   DTS:LocaleID="4105"
   DTS:ObjectName="stgDimMisConduct"
   DTS:PackageType="5"
-  DTS:VersionBuild="10"
-  DTS:VersionGUID="{72AFDA70-A47E-4954-8624-E3344A5E933B}">
+  DTS:VersionBuild="11"
+  DTS:VersionGUID="{1E97F3AD-23C4-46CB-9F21-1CB4C4579713}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -894,25 +894,25 @@
         <NodeLayout
           Size="167.2,41.6"
           Id="Package\Load HrMisconduct\Extract Misconduct"
-          TopLeft="297.857147929619,52.764706622358" />
+          TopLeft="298.571433656069,52.764706622358" />
         <NodeLayout
           Size="156.8,41.6"
           Id="Package\Load HrMisconduct\Load Misconduct"
           TopLeft="315.714291090868,285.235298117964" />
         <EdgeLayout
           Id="Package\Load HrMisconduct.Paths[Flat File Source Output]"
-          TopLeft="383.614290877994,94.364706622358">
+          TopLeft="383.971433741219,94.364706622358">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,70.0470603893373"
+              EndConnector="0,70.047060389337"
               Start="0,0"
-              End="0,62.5470603893373">
+              End="0,62.547060389337">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,62.5470603893373" />
+                    End="0,62.547060389337" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -975,7 +975,7 @@
     design-time-name="Package\Source Count">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="141.6,41.6"
           Id="Package\Source Count\Source Count"
@@ -1003,7 +1003,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
