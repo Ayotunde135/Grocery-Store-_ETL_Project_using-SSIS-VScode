@@ -1,47 +1,47 @@
-# Tesca-grocery-analysis-_ETL_Project_SSIS-
-End to end package for a data pipeline using Visual Studio for  a Grocery Store
+# Tesca Grocery Analysis ETL Project: End-to-End Data Pipeline using SSIS
 
-Tesca Grocery Chain Project
+## Introduction
 
-This is a project to build an Enterprise Data Warehouse to address the analytic requirements of Tesca Grocery Chain. The goal is to provide insights into product movement, sales, promotions, vendor information, and more. The project also includes the building of Data Mart Cubes for functional areas and using Tableau and Power BI to design Data Visualizations.
+Welcome to the Grocery Analysis project, used to construct an Enterprise Data Warehouse to meet the analytical needs of a Grocery Store Chain. The primary objective is to glean insights into product movement, sales trends, promotional impacts, vendor dynamics, and more. This comprehensive project entails building Data Mart Cubes for various functional areas and leveraging visualization tools like Tableau and Power BI to create intuitive data representations.
 
-Background
+## Background
 
-Tesca Grocery Chain consists of 830 stores in 74 states
-Distribute products received from certified vendors to stores
-Stores 40 products in 7 departments, such as frozen foods and diary
-Bar codes are scanned directly into the cash registers’ POS System by Sales person
-Sales Products are promoted via coupons, temporary price reductions, ads, and in store promotions
-Purchasing department received products from vendor
-Sales Persons overtime hours are captured in Excel by Sales Manager
-Backup of the Tesca Grocery Chain Transaction Processing System has been provided to you
-Database Administrator has granted full administrative privileges on both Analysis and Relational Database Instances
+Tesca Grocery Chain encompasses 830 stores across 74 states. It operates by distributing products sourced from certified vendors to its stores, stocking a diverse range of 40 products across 7 departments. Sales transactions are facilitated through the scanning of barcodes directly into the Point of Sale (POS) system. Additionally, product promotions are executed through various means such as coupons, temporary price reductions, advertisements, and in-store promotions. 
+Key data regarding vendor transactions, salesperson overtime, and POS device replacements are meticulously tracked. 
 
+## Analytic Requirements
 
-Analytic Requirements
+The project is driven by a multitude of analytic needs:
 
-Need to know what is selling in the stores each day to evaluate product movement, as well as to see how sales are impacted by promotions
-Need to understand the mix of products in a customer’s market basket
-Changes to Point of Sales Device on each channel are recorded to know the frequency of channel POS device replacement
-Need to understand the most ordered products from each Vendor in each store
-The management decided to track changes to vendor information to determine the impact on the delivery services
-Sales Manager is interested to know the effects of product rebranding on Sales
-Human Resources Management needs to know the effects of changes to marital status on salesperson’s overtime hours
-Needs to perform sales analysis on overall product brand sales and rebrand product sales
-Purchasing Manager needs to know the efficient vendors based on differential days between order date and delivery date
-Sales Manager needs to know what are the most demanding products for each time period of the day
+- Daily sales analysis to monitor product movement and assess promotion impacts.
+- Understanding the product mix in customers' market baskets.
+- Tracking changes in POS devices across different channels.
+- Identifying top-selling products from each vendor in every store.
+- Monitoring changes in vendor information to optimize delivery services.
+- Evaluating the effects of product rebranding on sales.
+- Assessing the impact of marital status changes on salesperson overtime.
+- Conducting sales analysis on overall product brand sales and rebranded product sales.
+- Identifying efficient vendors based on order-to-delivery time differentials.
+- Determining the most in-demand products during different time periods of the day.
 
+## Deliverables
 
-Deliverables
+The project entails the following deliverables:
 
-Build an Enterprise Data warehousing that addresses the analytic requirements
-Build Data Mart Cubes for functional areas based on the analytic requirements using SQL Server Analysis services (Using both Multidimensional and Tabular Models)
-Using Tableau and Power BI to design Data Visualisations for business users and management to enable informed decisions
+- Development of an Enterprise Data Warehouse tailored to meet the specified analytic requirements.
+- Construction of Data Mart Cubes for various functional areas.
+- Creation of intuitive and insightful data visualizations using Tableau, catering to the needs of business users and management, facilitating data-driven decision-making.
 
+## Technologies Used
 
-Technologies Used
-SQL Server Analysis Services (Multidimensional and Tabular Models),
-SSIS,
-VISUAL STUDIO,
-Tableau,
-Power BI.
+The project leverages the following technologies:
+
+- SQL Server Integration Services (SSIS)
+- Visual Studio
+- Tableau
+
+## Getting Started
+
+To explore the project, please refer to the provided documentation and resources within the repository. 
+
+Let's embark on this journey of data analysis and insights to empower Tesca Grocery Chain in making informed decisions and driving business growth.
